@@ -16,6 +16,10 @@ Welcome ${user_login} !
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="logout"/>
     <input type="submit" name="button_logout" value="Logout"/>
+    <br/>
+    ${filter_attr}
+    <br/>
+    ${pageContext.session.id}
 </form>
 </body>
 </html>

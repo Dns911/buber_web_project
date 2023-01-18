@@ -29,7 +29,7 @@ body_login {
 
 .form_login {
     max-width: 320px;
-    padding: 15px;
+    padding: 0px;
     margin: 20px;
     background-color: #fff;
 }
@@ -60,6 +60,25 @@ body_login {
     color: #fff;
 }
 
-.btn:hover {
-    background-color: #14a20a;
+.btnDriver {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+
+    border: 0;
+    background-color: #bc115e;
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 16px;
+    color: #fff;
 }
+
+.btnDriver:hover {
+    background-color: #960f4c;
+}
+
+.btn:hover {
+    background-color: #187b11;
+}
+

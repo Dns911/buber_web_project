@@ -11,13 +11,17 @@
 <head>
     <title>Registration was success</title>
 </head>
-<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 <body>
 
 <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
     Registration was success!
+    <br/>
+    ${filter_attr}
     <input type="hidden" name="command" value="default">
     <input class="btn" type="submit" name="but" value="Back to login"/>
+    <br/>
+    ${pageContext.session.id}
 </form>
 </body>
 </html>

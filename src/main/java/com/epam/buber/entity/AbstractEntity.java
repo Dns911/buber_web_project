@@ -1,4 +1,4 @@
 package com.epam.buber.entity;
 
-public class AbstractEntity {
+public abstract class AbstractEntity {
 }

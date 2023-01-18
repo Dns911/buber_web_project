@@ -1,12 +1,12 @@
-package com.epam.buber.command.impl;
+package com.epam.buber.controller;
 
 import com.epam.buber.controller.PagePath;
 
 public class Router {
-    private String page = PagePath.INDEX;
+    private String page;
     private RouterType type = RouterType.FORWARD;
-    enum RouterType {
-        FORWARD, REDIRECT;
+    public enum RouterType {
+        FORWARD, REDIRECT
     }
 
     public Router(String page) {
@@ -28,5 +28,9 @@ public class Router {
 
     public void setRedirect() {
         this.type = RouterType.REDIRECT;
+    }
+
+    public RouterType getType() {
+        return type;
     }
 }

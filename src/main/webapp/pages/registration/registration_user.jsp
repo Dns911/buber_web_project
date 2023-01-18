@@ -6,14 +6,19 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Registration</title>
-
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
-<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 <body>
+<header>
+    <h1>
+        Регистрация нового пользователя
+    </h1>
+</header>
 <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="add_user">
     <input class="input" type="email" name="email" required placeholder="Ваш e-mail">
@@ -23,6 +28,9 @@
     <input class="input" type="password"  placeholder="Пароль">
     <input class="input" type="password" placeholder="Пароль еще раз">
     <input class="btn" type="submit" name="but" value="Registration"/>
+    <br/>
+    ${usertype}
+    ${filter_attr}
 </form>
 <simpleType name="phone_numb">
     <restriction base="string">

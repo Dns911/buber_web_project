@@ -16,7 +16,7 @@
         <location>/pages/error/error_500.jsp</location>
     </error-page>
     <session-config>
-        <session-timeout>20</session-timeout>
+        <session-timeout>20</session-timeout> <!--  min !-->
     </session-config>
     <welcome-file-list>
         <welcome-file>/index.jsp</welcome-file>
