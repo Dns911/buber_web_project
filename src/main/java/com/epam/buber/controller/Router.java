@@ -1,7 +1,5 @@
 package com.epam.buber.controller;
 
-import com.epam.buber.controller.PagePath;
-
 public class Router {
     private String page;
     private RouterType type = RouterType.FORWARD;

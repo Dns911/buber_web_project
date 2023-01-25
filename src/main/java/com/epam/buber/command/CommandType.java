@@ -10,6 +10,7 @@ public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationPageCommand()),
+    INDEX(new IndexCommand()),
     DEFAULT (new DefaultCommand());
 
     private static Logger logger = LogManager.getLogger();

@@ -1,4 +1,4 @@
-package com.epam.buber.controller;
+package com.epam.buber.controller.info;
 
 public class RequestParameterName {
     private RequestParameterName() {
@@ -20,4 +20,5 @@ public class RequestParameterName {
 
     public static final String EMAIL = "email";
     public static final String PHONE_NUM = "phone_numb";
+    public static final String REGISTR_MSG = "registr_msg";
 }

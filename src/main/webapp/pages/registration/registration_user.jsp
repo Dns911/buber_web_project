@@ -21,14 +21,15 @@
 </header>
 <form class="form" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="add_user">
-    <input class="input" type="email" name="email" required placeholder="Ваш e-mail">
-    <input class="input" type="phone_numb" name="phone" required placeholder="Ваш телефон (+375 00 000-00-00)">
-    <input class="input" type="text" name="user_name" required placeholder="Ваше имя">
-    <input class="input" type="text" name="user_lastname" placeholder="Ваша фамилия">
-    <input class="input" type="password"  placeholder="Пароль">
+    <input class="input" type="email" name="email" required placeholder="Ваш e-mail" value="">
+    <input class="input" type="text" name="phone_numb" required placeholder="Ваш телефон (+375 00 000-00-00)" value="">
+    <input class="input" type="text" name="user_name" required placeholder="Ваше имя" value="">
+    <input class="input" type="text" name="user_lastname" placeholder="Ваша фамилия" value="">
+    <input class="input" type="password" name="password" placeholder="Пароль" value="">
     <input class="input" type="password" placeholder="Пароль еще раз">
     <input class="btn" type="submit" name="but" value="Registration"/>
     <br/>
+    ${sessionScope.registr_msg}
     ${usertype}
     ${filter_attr}
 </form>

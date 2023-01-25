@@ -1,13 +1,13 @@
 package com.epam.buber.command.impl;
 
-import com.epam.buber.controller.RequestParameterName;
+import com.epam.buber.controller.info.RequestParameterName;
 import com.epam.buber.controller.Router;
 import com.epam.buber.exception.CommandException;
 import com.epam.buber.exception.ServiceException;
 import com.epam.buber.service.UserService;
 import com.epam.buber.service.impl.UserServiceImpl;
 import com.epam.buber.command.Command;
-import com.epam.buber.controller.PagePath;
+import com.epam.buber.controller.info.PagePath;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -24,10 +24,10 @@ public class LoginCommand implements Command {
             if (userService.authenticate(login, password)) {
                 request.setAttribute(RequestParameterName.USER, login);
                 session.setAttribute(RequestParameterName.USER_LOGIN, login);
-                page = PagePath.MAIN;
+                page = PagePath.USER_PAGE;
             } else {
                 request.setAttribute(RequestParameterName.LOGIN_MSG, "Incorrect login or password");
-                page = PagePath.INDEX;
+                page = PagePath.MAIN;
             }
             router = new Router(page, Router.RouterType.FORWARD);
             session.setAttribute(RequestParameterName.CURRENT_PAGE, page);

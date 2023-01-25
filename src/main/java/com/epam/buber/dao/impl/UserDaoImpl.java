@@ -17,7 +17,7 @@ import java.util.List;
 public class UserDaoImpl implements BaseDao<User>, UserDao {
     private static Logger logger = LogManager.getLogger();
     private static final String CHECK_PASSWORD_LOGIN = "SELECT password FROM users WHERE email = ?";
-    private static final String ADD_USER = "INSERT INTO users (email, password, phone, name, last_name) VALUES (?, ?, ?, ?, ?)";
+    private static final String ADD_USER = "INSERT INTO users (email, password, phone, name, last_name, date_registry) VALUES (?, ?, ?, ?, ?, ?)";
     private static UserDaoImpl userDaoImplInstance;
 
     private UserDaoImpl() {
@@ -74,11 +74,15 @@ public class UserDaoImpl implements BaseDao<User>, UserDao {
         boolean match = false;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER)) {
+            logger.log(Level.INFO,"Dao level parameters = {}, {}, {}, {}, {}",email, password, phone, name, lastname );
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, phone);
             preparedStatement.setString(4, name);
             preparedStatement.setString(5, lastname);
+            long currentDate = System.currentTimeMillis();
+            Date date = new Date(currentDate);          //java.sql.Date
+            preparedStatement.setDate(6, date); //Todo set current date
             int countRows = preparedStatement.executeUpdate();
 
             if (countRows == 1){

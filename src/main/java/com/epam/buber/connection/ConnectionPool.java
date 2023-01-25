@@ -46,7 +46,8 @@ public class ConnectionPool {
             for (int i = 0; i < POOL_SIZE; i++) {
                 queue.add(createConnection());
             }
-            checkPool();
+//            checkPool();
+//        destrConnect();
     }
 
     public static ConnectionPool getInstance() {
@@ -84,7 +85,7 @@ public class ConnectionPool {
             logger.log(Level.ERROR, "Get connection exception: {}", e.getMessage());
             Thread.currentThread().interrupt();
         }
-        logger.log(Level.INFO,"POOL in work! free con: {}, used con: {}", queue.size(), usedQueue.size());
+        logger.log(Level.INFO,"POOL in work(get)! free con: {}, used con: {}", queue.size(), usedQueue.size());
         return connection;
     }
 
@@ -97,7 +98,7 @@ public class ConnectionPool {
             } else {
                 //todo
             }
-            logger.log(Level.INFO,"POOL in work! free con: {}, used con: {}", queue.size(), usedQueue.size());
+            logger.log(Level.INFO,"POOL in work(release)! free con: {}, used con: {}", queue.size(), usedQueue.size());
         } catch (InterruptedException e) {
             logger.log(Level.ERROR, "Return connection exception: {}", e.getMessage());
             Thread.currentThread().interrupt();
@@ -121,6 +122,23 @@ public class ConnectionPool {
             };
             poolTimer.schedule(task, 0, 10000);
     }
+
+//    private void destrConnect(){
+//        Timer destroyer = new Timer();
+//        TimerTask task = new TimerTask() {
+//            @Override
+//            public void run() {
+//                try {
+//                    ProxyConnection connection = queue.take();
+//                    connection.reallyClose();
+//                    logger.log(Level.INFO,"DESTROYER in work! free con: {}, used con: {}", queue.size(), usedQueue.size());
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        };
+//        destroyer.schedule(task, 5000, 20000);
+//    }
 
     public void deregisterDriver() {
         DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {

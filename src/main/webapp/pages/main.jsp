@@ -9,17 +9,35 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-Welcome ${user_login} !
-<br/>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="logout"/>
-    <input type="submit" name="button_logout" value="Logout"/>
-    <br/>
-    ${filter_attr}
-    <br/>
-    ${pageContext.session.id}
+<form action="controller" method="post">
+    <div>
+        <input type="text" name="start_point" placeholder="Откуда?">
+    </div>
+    <div>
+        <input type="text" name="end_point" placeholder="Куда?">
+    </div>
+    <div>
+        <input type="radio" name="class_auto" value="economy"/>Эконом
+        <input type="radio" name="class_auto" value="standard"/>Стандарт
+        <input type="radio" name="class_auto" value="business"/>Бизнес
+        <input type="radio" name="class_auto" value="minivan"/>Минивэн
+    </div>
+    <div>
+        <select name="pay_method" id="">
+            <option selected value=cash">Наличные</option>
+            <option value="card">Оплата картой</option>
+        </select>
+    </div>
+    <div>
+        <input type="text" name="start_point" placeholder="Комментарий водителю...">
+    </div>
+    <input type="hidden" name="command" value="order"/>
 </form>
+<div>
+    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A5cd3881d387491e399a7ea11ba7124e73e891ecf36c74dc45b7d82ec777d8a96&amp;width=100%25&amp;height=593&amp;lang=ru_RU&amp;scroll=true"></script>
+</div>
 </body>
 </html>
