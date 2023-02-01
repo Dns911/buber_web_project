@@ -5,7 +5,8 @@
   Time: 22:52
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Title</title>
@@ -14,10 +15,21 @@
 <body>
 <form action="controller" method="post">
     <div>
-        <input type="text" name="start_point" placeholder="Откуда?">
+<%--        <input type="text" name="start_point" placeholder="Откуда?">--%>
+        <select name="start_point">
+            <option selected disabled value="">Откуда?</option>
+            <option value="store">Магазин</option>
+            <option value="bakery">Пекарня</option>
+            <option value="school">Школа</option>
+        </select>
     </div>
     <div>
-        <input type="text" name="end_point" placeholder="Куда?">
+        <select name="finish_point">
+            <option selected disabled value="">Куда?</option>
+            <option value="store">Магазин</option>
+            <option value="bakery">Пекарня</option>
+            <option value="school">Школа</option>
+        </select>
     </div>
     <div>
         <input type="radio" name="class_auto" value="economy"/>Эконом
@@ -26,7 +38,7 @@
         <input type="radio" name="class_auto" value="minivan"/>Минивэн
     </div>
     <div>
-        <select name="pay_method" id="">
+        <select name="pay_method">
             <option selected value=cash">Наличные</option>
             <option value="card">Оплата картой</option>
         </select>
@@ -34,10 +46,11 @@
     <div>
         <input type="text" name="start_point" placeholder="Комментарий водителю...">
     </div>
-    <input type="hidden" name="command" value="order"/>
+    <input type="hidden" name="command" value="preorder"/>
+    <input type="submit" name="button_order" value="Оформление заказа">
 </form>
 <div>
-    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A5cd3881d387491e399a7ea11ba7124e73e891ecf36c74dc45b7d82ec777d8a96&amp;width=100%25&amp;height=593&amp;lang=ru_RU&amp;scroll=true"></script>
+    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A65074fdda736f61b11365f2500689711231110d248e85ee90da2c770422a386d&amp;width=100%25&amp;height=582&amp;lang=ru_RU&amp;scroll=true"></script>
 </div>
 </body>
 </html>
