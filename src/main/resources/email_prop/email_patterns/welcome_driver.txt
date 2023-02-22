@@ -1,0 +1,11 @@
+Dear driver [INSERT_TEXT],
+
+Welcome to bUber!
+We're thrilled to have you on board as a new member of our team.
+To get started, simply go to bUber website enter your email address and password at sign in.
+From there, you can set up your profile, get an order.
+If you have any questions or need assistance, our support team is available to help.
+
+
+Best regards,
+The bUber Team

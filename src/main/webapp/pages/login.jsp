@@ -8,54 +8,52 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Welcome to BUBER</title>
+    <title>Вход в систему</title>
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <header>
     <h1>
-        Welcome to BUBER!
+        Войти в систему или
+        стать новым пользователем!
     </h1>
 </header>
 <form class="form_login" action="${pageContext.request.contextPath}/controller" method="post">
-    <div>
-        ${logout_msg}
-    </div>
     <input type="hidden" name="command" value="login"/>
     <div>
-        Login: <input class="input" type="text" name="login" value=""/>
+        <input class="input" type="text" name="login" value="" placeholder="Ваш email">
     </div>
+   <div>
+       <input class="input" type="password" name="password" value="" placeholder="Пароль">
+   </div>
     <div>
-        Password: <input class="input" type="password" name="password" value=""/>
+        <input type="radio" name="user_role" checked value="client"/>Пассажир
+        <input type="radio" name="user_role" value="driver"/>Водитель
     </div>
-    <div>
-        <input type="radio" name="usertype1" value="regular_user"/>Пассажир
-        <input type="radio" name="usertype1" value="driver"/>Водитель
-    </div>
-    <div>
-        <input type="checkbox" name="param1" value="regular_user"/>Параметр 1
-        <input type="checkbox" name="param2" value="regular_user"/>Параметр 1
-    </div>
-    <div>
-        <input type="file" name="driver_photo"/>
-    </div>
+<%--    <div>--%>
+<%--        <input type="file" name="driver_photo"/>--%>
+<%--    </div>--%>
     ${login_msg}
     <br/>
     ${filter_attr}
     <br/>
     ${pageContext.session.id}
     <br/>
-    <input class="btn" type="submit" name="but1" value="Submit"/>
+    <input class="btn" type="submit" name="but1" value="Войти в систему"/>
+</form>
+<form class="form_login" action="controller" method="post">
+    <input type="hidden" name="command" value="restore_page"/>
+    <button class="btn" type="submit">Забыли пароль?</button>
 </form>
 <form class="form_login" action="controller" method="post">
     <input type="hidden" name="command" value="registration"/>
-    <input type="hidden" name="usertype" value="regular_user"/>
+    <input type="hidden" name="user_role" value="client"/>
     <%--    <input class="button" type="submit" name="but2" value="Стать пользователем"/>--%>
     <button class="btn" type="submit">Стать пользователем</button>
 </form>
 <form class="form_login" action="controller" method="post">
     <input type="hidden" name="command" value="registration"/>
-    <input type="hidden" name="usertype" value="driver"/>
+    <input type="hidden" name="user_role" value="driver"/>
     <%--        <input class="btn1" type="submit" name="but2" value="Стать водителем"/>--%>
     <button class="btnDriver" type="submit">Стать водителем</button>
 </form>

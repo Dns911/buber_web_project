@@ -14,6 +14,7 @@ import java.io.IOException;
 public class PreControllerFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
     public void init(FilterConfig config) throws ServletException {
+        logger.log(Level.INFO, "--------->>> Init controller filter");
     }
 
     public void destroy() {

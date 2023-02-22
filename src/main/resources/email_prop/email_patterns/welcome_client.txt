@@ -1,0 +1,13 @@
+Buber registration!
+Dear [INSERT_TEXT],
+
+Welcome to bUber!
+We're thrilled to have you on board as a new member of our community.
+To get started, simply go bUber website enter your email address and password at sign in.
+From there, you can set up your profile, make an order.
+If you have any questions or need assistance, our support team is available to help.
+Simply visit the Help section in the app, or visit our website at support.buber.com.
+Thank you for choosing bUber.
+
+Best regards,
+The bUber Team

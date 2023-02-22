@@ -15,7 +15,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
        // ConnectionPool.getInstance();
-       // logger.log(Level.INFO, "+++++++++ context Init:" + sce.getServletContext().getServerInfo());
+       logger.log(Level.INFO, "+++++++++ context Init:" + sce.getServletContext().getServerInfo());
     }
 
     @Override

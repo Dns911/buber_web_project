@@ -3,7 +3,7 @@ package com.epam.buber.entity;
 import com.epam.buber.entity.AbstractEntity;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 public class DriverShift extends AbstractEntity {

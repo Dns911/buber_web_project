@@ -2,10 +2,10 @@ package com.epam.buber.entity;
 
 import com.epam.buber.entity.parameter.UserRole;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
-public class User extends AbstractEntity {
+public abstract class User extends AbstractEntity {
     private int idUser;
     private String email;
     private String password;
@@ -13,30 +13,30 @@ public class User extends AbstractEntity {
     private String name;
     private String lastName;
     private Date registrationDate;
-    private double paymentSum;
     private double rate;
     private UserRole role;
 
     public User() {
     }
 
-    public User(int idUser, String email, String password, String phoneNum, String name, String lastName, double paymentSum, double rate, UserRole role) {
+    public User(int idUser, String email, String password, String phoneNum, String name, String lastName,
+                Date registrationDate, double rate, UserRole role) {
         this.idUser = idUser;
         this.email = email;
         this.password = password;
         this.phoneNum = phoneNum;
         this.name = name;
         this.lastName = lastName;
-        this.paymentSum = paymentSum;
+        this.registrationDate = registrationDate;
         this.rate = rate;
         this.role = role;
     }
 
-    public int getIdUser() {
+    public int getId() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setId(int idUser) {
         this.idUser = idUser;
     }
 
@@ -88,14 +88,6 @@ public class User extends AbstractEntity {
         this.registrationDate = registrationDate;
     }
 
-    public double getPaymentSum() {
-        return paymentSum;
-    }
-
-    public void setPaymentSum(double paymentSum) {
-        this.paymentSum = paymentSum;
-    }
-
     public double getRate() {
         return rate;
     }
@@ -112,25 +104,18 @@ public class User extends AbstractEntity {
         this.role = role;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getIdUser() == user.getIdUser() && Double.compare(user.getPaymentSum(),
-                getPaymentSum()) == 0 && Double.compare(user.getRate(),
-                getRate()) == 0 && Objects.equals(getEmail(),
-                user.getEmail()) && Objects.equals(getPassword(),
-                user.getPassword()) && Objects.equals(getPhoneNum(),
-                user.getPhoneNum()) && Objects.equals(getName(),
-                user.getName()) && Objects.equals(getLastName(),
-                user.getLastName()) && Objects.equals(getRegistrationDate(),
-                user.getRegistrationDate()) && getRole() == user.getRole();
+        return getId() == user.getId() && Double.compare(user.getRate(), getRate()) == 0 && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getPhoneNum(), user.getPhoneNum()) && Objects.equals(getName(), user.getName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getRegistrationDate(), user.getRegistrationDate()) && getRole() == user.getRole();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIdUser(), getEmail(), getPassword(), getPhoneNum(), getName(), getLastName(),getRegistrationDate(), getPaymentSum(), getRate(), getRole());
+        return Objects.hash(getId(), getEmail(), getPassword(), getPhoneNum(), getName(), getLastName(), getRegistrationDate(), getRate(), getRole());
     }
 
     @Override
@@ -143,7 +128,6 @@ public class User extends AbstractEntity {
         sb.append("\n name='").append(name).append('\'');
         sb.append("\n lastName='").append(lastName).append('\'');
         sb.append("\n registrationDate='").append(registrationDate).append('\'');
-        sb.append("\n paymentSum=").append(paymentSum);
         sb.append("\n rate=").append(rate);
         sb.append("\n role=").append(role);
         sb.append('}');

@@ -10,7 +10,14 @@ public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationPageCommand()),
-    INDEX(new IndexCommand()),
+    GOTO_MAIN(new GotoMainCommand()),
+    PREORDER(new PreOrderCommand()),
+    USER_PAGE(new UserPageCommand()),
+    USER_INFO(new UserInfoCommand()),
+    RESTORE_PASS(new RestorePassCommand()),
+    RESTORE_PAGE(new RestorePageCommand()),
+    DRIVER_SHIFT_START(new DriverShiftStartCommand()),
+    DRIVER_SHIFT_END(new DriverShiftStartCommand()),
     DEFAULT (new DefaultCommand());
 
     private static Logger logger = LogManager.getLogger();
@@ -29,5 +36,10 @@ public enum CommandType {
             return currentComType.command;
         }
         return currentComType.command;
+    }
+
+    @Override
+    public String toString() {
+        return this.command.toString();
     }
 }

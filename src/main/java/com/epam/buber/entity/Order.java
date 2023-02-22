@@ -1,7 +1,7 @@
 package com.epam.buber.entity;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 public class Order extends AbstractEntity{

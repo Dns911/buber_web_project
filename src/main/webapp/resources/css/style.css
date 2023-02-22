@@ -1,5 +1,8 @@
-h1 {
+h1{
     color: red;
+}
+.h1_center{
+    text-align: center;
 }
 
 body {
@@ -9,22 +12,17 @@ body {
     background-color: #f8f8f8;
 }
 
-body_login {
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: #000;
-    background-color: #f8f8f8;
-}
+
 
 * {
     box-sizing: border-box;
 }
 
-.form {
+.form_center {
     max-width: 320px;
     padding: 15px;
     margin: 20px auto;
-    background-color: #fff;
+    background-color: #eca9a9;
 }
 
 .form_login {
@@ -35,8 +33,8 @@ body_login {
 }
 
 .input {
-    display: block;
-    width: 100%;
+    display: inline;
+    width: 95%;
     padding: 8px 10px;
     margin-bottom: 10px;
 
@@ -44,6 +42,11 @@ body_login {
 
     font-family: inherit;
     font-size: 16px;
+}
+.red_text{
+    font-family: inherit;
+    font-size: 20px;
+    color: red;
 }
 
 .btn {
@@ -80,5 +83,35 @@ body_login {
 
 .btn:hover {
     background-color: #187b11;
+}
+
+.div_inline{
+    display: inline;
+}
+.geocoder {
+    position: relative;
+    z-index: 2;
+    width: 14%;
+    left: 0px;
+    margin-left: 10px;
+    top: 15px;
+}
+.geocoder1 {
+    position: relative;
+    z-index: 1;
+    width: 14%;
+    left: 0px;
+    margin-left: 10px;
+    top: 15px;
+}
+/*.form_main{*/
+/*    width: 14%;*/
+/*    margin-left: 20px;*/
+/*    top: 15px;*/
+/*}*/
+
+.mapboxgl-ctrl-geocoder {
+    min-width: 100%;
+    font-size: 15px;
 }
 

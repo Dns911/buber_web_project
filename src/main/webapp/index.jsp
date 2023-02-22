@@ -6,7 +6,7 @@
 </head>
 <body>
 <jsp:forward page="/controller">
-    <jsp:param name="command" value="index"/>
+    <jsp:param name="command" value="goto_main"/>
 </jsp:forward>
 </body>
 </html>

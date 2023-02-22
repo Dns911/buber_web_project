@@ -14,7 +14,7 @@
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 <body>
 
-<form class="form" action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_center" action="${pageContext.request.contextPath}/controller" method="post">
     Registration was success!
     <br/>
     ${filter_attr}

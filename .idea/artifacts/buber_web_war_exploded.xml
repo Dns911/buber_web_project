@@ -24,6 +24,21 @@
           <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" />
           <element id="library" level="project" name="Maven: org.jetbrains:annotations:23.1.0" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.15" />
+          <element id="library" level="project" name="Maven: javax.mail:javax.mail-api:1.6.2" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1.1" />
+          <element id="library" level="project" name="Maven: com.sun.mail:smtp:1.6.7" />
+          <element id="library" level="project" name="Maven: com.sun.mail:mailapi:1.6.7" />
+          <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:1.2.1" />
+          <element id="library" level="project" name="Maven: com.intendia.mapboxgl-jsinterop:mapboxgl-jsinterop:0.1-beta4" />
+          <element id="library" level="project" name="Maven: com.google.elemental2:elemental2-core:1.0.0-RC1" />
+          <element id="library" level="project" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.2" />
+          <element id="library" level="project" name="Maven: com.google.jsinterop:base:1.0.0-RC1" />
+          <element id="library" level="project" name="Maven: com.google.elemental2:elemental2-dom:1.0.0-RC1" />
+          <element id="library" level="project" name="Maven: com.google.elemental2:elemental2-promise:1.0.0-RC1" />
+          <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+          <element id="library" level="project" name="Maven: junit:junit:4.10" />
+          <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.12.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

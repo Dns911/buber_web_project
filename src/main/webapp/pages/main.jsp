@@ -9,33 +9,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>Taxi Buber</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css"/>
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; left: 20%;  width: 80%;}
+    </style>
 </head>
 <body>
-<form action="controller" method="post">
+
+<div>
+    <span> Добро пожаловать, ${sessionScope.user_login}!</span>
+</div>
+<form action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="user_page">
+    <input type="submit" name="user_button" value="Страница пользователя/Вход">
+</form>
+<div id='map'></div>
+<nav id="menu"></nav>
+<form action="${pageContext.request.contextPath}/controller" method="post">
+    <div id="geocoder_from" name="from" class="geocoder"></div>
+    <div id="geocoder_to" name="to" class="geocoder1"></div>
+    <br/>
+    <br/>
+    <input type="text" id="test">
+    <br/>
+    <br/>
     <div>
-<%--        <input type="text" name="start_point" placeholder="Откуда?">--%>
-        <select name="start_point">
-            <option selected disabled value="">Откуда?</option>
-            <option value="store">Магазин</option>
-            <option value="bakery">Пекарня</option>
-            <option value="school">Школа</option>
-        </select>
-    </div>
-    <div>
-        <select name="finish_point">
-            <option selected disabled value="">Куда?</option>
-            <option value="store">Магазин</option>
-            <option value="bakery">Пекарня</option>
-            <option value="school">Школа</option>
-        </select>
-    </div>
-    <div>
-        <input type="radio" name="class_auto" value="economy"/>Эконом
-        <input type="radio" name="class_auto" value="standard"/>Стандарт
-        <input type="radio" name="class_auto" value="business"/>Бизнес
-        <input type="radio" name="class_auto" value="minivan"/>Минивэн
+        <div>
+            <input type="radio" name="class_auto" value="economy"/>Эконом
+            <input type="radio" name="class_auto" value="standard" checked/>Стандарт
+        </div>
+        <div>
+            <input type="radio" name="class_auto" value="business"/>Бизнес
+            <input type="radio" name="class_auto" value="minivan"/>Минивэн
+        </div>
     </div>
     <div>
         <select name="pay_method">
@@ -44,13 +57,40 @@
         </select>
     </div>
     <div>
-        <input type="text" name="start_point" placeholder="Комментарий водителю...">
+        <input type="text" name="comment_for_driver" placeholder="Комментарий водителю..." maxlength="40">
+    </div>
+    <div><input type="text" id="duration" name="duration"></div>
+    <div><input type="text" id="distance" name="distance"></div>
+    start
+    <div>
+        <input type="text" id="start_street" name="start_street">
+    </div>
+    <div>
+        <input type="text" id="start_addr" name="start_addr">
+    </div>
+    <div>
+        <input type="text" id="start_lng" name="start_lng">
+    </div>
+    <div>
+        <input type="text" id="start_lat" name="start_lat">
+    </div>
+    finish
+    <div>
+        <input type="text" id="finish_street" name="finish_street">
+    </div>
+    <div>
+        <input type="text" id="finish_addr" name="finish_addr">
+    </div>
+    <div>
+        <input type="text" id="finish_lng" name="finish_lng">
+    </div>
+    <div>
+        <input type="text" id="finish_lat" name="finish_lat">
     </div>
     <input type="hidden" name="command" value="preorder"/>
-    <input type="submit" name="button_order" value="Оформление заказа">
+    <input type="submit" name="button_order" value="Перейти к заказу">
 </form>
-<div>
-    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A65074fdda736f61b11365f2500689711231110d248e85ee90da2c770422a386d&amp;width=100%25&amp;height=582&amp;lang=ru_RU&amp;scroll=true"></script>
-</div>
+    ${pageContext.session.id}
+<script src="${pageContext.request.contextPath}/pages/map/main.js"></script>
 </body>
 </html>

@@ -28,11 +28,13 @@ public class Controller extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        logger.log(Level.INFO, "do Get");
         process(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        logger.log(Level.INFO, "do Post");
         process(req, resp);
     }
 
@@ -41,12 +43,9 @@ public class Controller extends HttpServlet {
         resp.setContentType("text/html");
         logger.log(Level.INFO, "////////2");
         String commandStr = req.getParameter(RequestParameterName.COMMAND);
-        logger.log(Level.INFO, "////////3");
         Command command = CommandType.define(commandStr.toUpperCase());
         try {
-            logger.log(Level.INFO, "////////4");
             Router router = command.execute(req);
-            logger.log(Level.INFO, "////////" + router.getType().toString());
             switch (router.getType()) {
                 case FORWARD:
                     req.getRequestDispatcher(router.getPage()).forward(req, resp);
