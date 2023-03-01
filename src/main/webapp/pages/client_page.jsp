@@ -9,17 +9,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>Client page</title>
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
 Страница клиента ${sessionScope.user_login} !
 <br/>
 
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="user_info"/>
-    <input type="submit" name="button_inf" value="Информация о пользователе"/>
-</form>
+
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="logout"/>
     <input type="submit" name="button_logout" value="Выйти из системы"/>
@@ -32,7 +29,11 @@
     <input type="hidden" name="command" value="goto_main"/>
     <input type="submit" name="button_main" value="Вернуться на главную"/>
 </form>
-<table>
+<form action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="user_info"/>
+    <input type="submit" name="button_inf" value="Информация о пользователе"/>
+</form>
+<table class="table">
     <tr>
         <th>
             Номер телефона
@@ -74,5 +75,10 @@
         </td>
     </tr>
 </table>
+<form action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="order_info"/>
+    <input type="submit" name="button_main" value="Текущий заказ"/>
+    <div>${requestScope.current_order_msg}</div>
+</form>
 </body>
 </html>

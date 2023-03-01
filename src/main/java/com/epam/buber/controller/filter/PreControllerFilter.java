@@ -13,6 +13,7 @@ import java.io.IOException;
 @WebFilter(filterName = "PreControllerFilter", urlPatterns = {"/controller"})
 public class PreControllerFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
+
     public void init(FilterConfig config) throws ServletException {
         logger.log(Level.INFO, "--------->>> Init controller filter");
     }

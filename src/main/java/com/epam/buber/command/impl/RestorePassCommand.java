@@ -21,18 +21,14 @@ public class RestorePassCommand implements Command {
         String login = request.getParameter(RequestParameterName.LOGIN);
         String roleSrt = request.getParameter(RequestParameterName.USER_ROLE);
         UserRole role = UserRole.define(roleSrt);
-        String result;
-
         UserService userService = UserServiceImpl.getInstance();
-        CommonService commonService = CommonServiceImpl.getInstance();
         EmailService emailService = EmailServiceImpl.getInstance();
         Router router;
         String page;
-
         try {
-            result = userService.getNewPassword(login, role);
-            if (!result.equals(UserServiceImpl.NEW_PASS_ERROR)){
-                emailService.sendEmail(login, result, EmailService.EmailType.RESTORE_PASSWORD);
+            String result = userService.getNewPassword(login, role);
+            if (!result.equals(UserServiceImpl.NEW_PASS_ERROR)) {
+                emailService.sendEmail(login, EmailService.EmailType.RESTORE_PASSWORD_1, result);
                 page = PagePath.INDEX;
             } else {
                 request.setAttribute(RequestParameterName.LOGIN + "_err", result);
@@ -42,7 +38,6 @@ public class RestorePassCommand implements Command {
         } catch (ServiceException e) {
             throw new CommandException(e);
         }
-
         return router;
     }
 }

@@ -13,6 +13,7 @@ import java.io.IOException;
 @WebFilter(filterName = "PreIndexFilter", urlPatterns = "/index.jsp")
 public class PreIndexFilter implements Filter {
     private static Logger logger = LogManager.getLogger();
+
     public void init(FilterConfig config) throws ServletException {
     }
 

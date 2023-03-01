@@ -110,7 +110,12 @@ public abstract class User extends AbstractEntity {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getId() == user.getId() && Double.compare(user.getRate(), getRate()) == 0 && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getPhoneNum(), user.getPhoneNum()) && Objects.equals(getName(), user.getName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getRegistrationDate(), user.getRegistrationDate()) && getRole() == user.getRole();
+        return getId() == user.getId() && Double.compare(user.getRate(), getRate()) == 0 &&
+                Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getPhoneNum(), user.getPhoneNum()) && Objects.equals(getName(), user.getName()) &&
+                Objects.equals(getLastName(), user.getLastName()) &&
+                Objects.equals(getRegistrationDate(), user.getRegistrationDate()) &&
+                getRole() == user.getRole();
     }
 
     @Override

@@ -1,0 +1,15 @@
+Buber team!
+Dear driver [INSERT_TEXT]0,
+
+You have new order: Order N [INSERT_TEXT]1
+
+Start point: [INSERT_TEXT]2
+Order start: [INSERT_TEXT]3
+
+Client name: [INSERT_TEXT]4
+Phone number: [INSERT_TEXT]5
+
+We wish you perfect trip.
+
+Best regards,
+The bUber Team

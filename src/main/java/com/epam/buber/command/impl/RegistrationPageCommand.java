@@ -13,13 +13,13 @@ import org.apache.logging.log4j.Logger;
 
 public class RegistrationPageCommand implements Command {
     private static Logger logger = LogManager.getLogger();
+
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
-        String userRole = request.getParameter(RequestParameterName.USER_ROLE);
-        logger.log(Level.INFO,"role: " + userRole);
-//        request.getSession().setAttribute(RequestParameterName.REGISTR_MSG,"");
+        UserRole role = UserRole.define(request.getParameter(RequestParameterName.USER_ROLE));
+        logger.log(Level.INFO, "role: " + role);
         Router router;
-        if (userRole.equals(UserRole.CLIENT.getStringRole())){
+        if (role.equals(UserRole.CLIENT)) {
             router = new Router(PagePath.REGISTRATION_CLIENT, Router.RouterType.FORWARD);
         } else {
             router = new Router(PagePath.REGISTRATION_DRIVER, Router.RouterType.FORWARD);

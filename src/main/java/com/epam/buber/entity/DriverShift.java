@@ -1,57 +1,45 @@
 package com.epam.buber.entity;
 
-import com.epam.buber.entity.AbstractEntity;
-
 import java.sql.Time;
 import java.sql.Date;
 import java.util.Objects;
 
 public class DriverShift extends AbstractEntity {
-    private int idShiftDriver;
-    private int idDriver;
-    private String idCar;
+    private long idShift;
+    private Driver driver;
+    private Car car;
     private Date date;
     private Time startTime; //SQL Time
     private Time finishTime; //SQL Time
     private double income; //0.00 BYN
     private double length; //000.0 km
+    private Order currentOrder;
 
     public DriverShift() {
     }
 
-    public DriverShift(int idShiftDriver, int idDriver, String idCar, Date date, Time startTime, Time finishTime, double income, double length) {
-        this.idShiftDriver = idShiftDriver;
-        this.idDriver = idDriver;
-        this.idCar = idCar;
-        this.date = date;
-        this.startTime = startTime;
-        this.finishTime = finishTime;
-        this.income = income;
-        this.length = length;
+    public long getIdShift() {
+        return idShift;
     }
 
-    public int getIdShiftDriver() {
-        return idShiftDriver;
+    public void setIdShift(long idShiftDriver) {
+        this.idShift = idShiftDriver;
     }
 
-    public void setIdShiftDriver(int idShiftDriver) {
-        this.idShiftDriver = idShiftDriver;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public int getIdDriver() {
-        return idDriver;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
-    public void setIdDriver(int idDriver) {
-        this.idDriver = idDriver;
+    public Car getCar() {
+        return car;
     }
 
-    public String getIdCar() {
-        return idCar;
-    }
-
-    public void setIdCar(String idCar) {
-        this.idCar = idCar;
+    public void setCar(Car car) {
+        this.car = car;
     }
 
     public Date getDate() {
@@ -86,6 +74,10 @@ public class DriverShift extends AbstractEntity {
         this.income = income;
     }
 
+    public void addIncome(double income) {
+        this.income += income;
+    }
+
     public double getLength() {
         return length;
     }
@@ -94,36 +86,48 @@ public class DriverShift extends AbstractEntity {
         this.length = length;
     }
 
+    public void addLength(double length) {
+        this.length += length;
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DriverShift)) return false;
-        DriverShift that = (DriverShift) o;
-        return getIdShiftDriver() == that.getIdShiftDriver() && getIdDriver() == that.getIdDriver() && Double.compare(that.getIncome(),
-                getIncome()) == 0 && Double.compare(that.getLength(),
-                getLength()) == 0 && Objects.equals(getIdCar(),
-                that.getIdCar()) && Objects.equals(getDate(),
-                that.getDate()) && Objects.equals(getStartTime(),
-                that.getStartTime()) && Objects.equals(getFinishTime(),
-                that.getFinishTime());
+        if (!(o instanceof DriverShift that)) return false;
+        return getIdShift() == that.getIdShift() && Double.compare(that.getIncome(), getIncome()) == 0 &&
+                Double.compare(that.getLength(), getLength()) == 0 && Objects.equals(getDriver(), that.getDriver()) &&
+                Objects.equals(getCar(), that.getCar()) && Objects.equals(getDate(), that.getDate()) &&
+                Objects.equals(getStartTime(), that.getStartTime()) &&
+                Objects.equals(getFinishTime(), that.getFinishTime()) &&
+                Objects.equals(getCurrentOrder(), that.getCurrentOrder());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIdShiftDriver(), getIdDriver(), getIdCar(), getDate(), getStartTime(), getFinishTime(), getIncome(), getLength());
+        return Objects.hash(getIdShift(), getDriver(), getCar(), getDate(), getStartTime(),
+                getFinishTime(), getIncome(), getLength(), getCurrentOrder());
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("DriverShift{");
-        sb.append(" idShiftDriver=").append(idShiftDriver);
-        sb.append("\n idDriver=").append(idDriver);
-        sb.append("\n idCar='").append(idCar).append('\'');
-        sb.append("\n date=").append(date);
-        sb.append("\n startTime=").append(startTime);
-        sb.append("\n finishTime=").append(finishTime);
-        sb.append("\n income=").append(income);
-        sb.append("\n length=").append(length);
+        sb.append(" idShiftDriver=").append(idShift);
+        sb.append("\ndriver=").append(driver);
+        sb.append("\ncar=").append(car);
+        sb.append("\ndate=").append(date);
+        sb.append("\nstartTime=").append(startTime);
+        sb.append("\nfinishTime=").append(finishTime);
+        sb.append("\nincome=").append(income);
+        sb.append("\nlength=").append(length);
+        sb.append("\ncurrentOrderId=").append(currentOrder);
         sb.append('}');
         return sb.toString();
     }

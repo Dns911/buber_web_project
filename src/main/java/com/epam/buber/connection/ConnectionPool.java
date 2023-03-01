@@ -43,9 +43,9 @@ public class ConnectionPool {
     }
 
     private ConnectionPool() {
-            for (int i = 0; i < POOL_SIZE; i++) {
-                queue.add(createConnection());
-            }
+        for (int i = 0; i < POOL_SIZE; i++) {
+            queue.add(createConnection());
+        }
 //            checkPool();
 //        destrConnect();
     }
@@ -85,7 +85,7 @@ public class ConnectionPool {
             logger.log(Level.ERROR, "Get connection exception: {}", e.getMessage());
             Thread.currentThread().interrupt();
         }
-        logger.log(Level.INFO,"POOL in work(get)! free con: {}, used con: {}", queue.size(), usedQueue.size());
+        logger.log(Level.INFO, "POOL in work(get)! free con: {}, used con: {}", queue.size(), usedQueue.size());
         return connection;
     }
 
@@ -98,29 +98,29 @@ public class ConnectionPool {
             } else {
                 //todo
             }
-            logger.log(Level.INFO,"POOL in work(release)! free con: {}, used con: {}", queue.size(), usedQueue.size());
+            logger.log(Level.INFO, "POOL in work(release)! free con: {}, used con: {}", queue.size(), usedQueue.size());
         } catch (InterruptedException e) {
             logger.log(Level.ERROR, "Return connection exception: {}", e.getMessage());
             Thread.currentThread().interrupt();
         }
     }
 
-    private void checkPool(){
-            Timer poolTimer = new Timer();
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    if (queue.size() + usedQueue.size() == POOL_SIZE){
-                        logger.log(Level.INFO,"POOL OK! free con: {}, used con: {}", queue.size(), usedQueue.size());
-                    } else {
-                        logger.log(Level.INFO,"POOL NOT OK! free con: {}, used con: {}", queue.size(), usedQueue.size());
-                        for (int i = 0; i < POOL_SIZE - queue.size(); i++) {
-                            queue.add(createConnection());
-                        }
+    private void checkPool() {
+        Timer poolTimer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if (queue.size() + usedQueue.size() == POOL_SIZE) {
+                    logger.log(Level.INFO, "POOL OK! free con: {}, used con: {}", queue.size(), usedQueue.size());
+                } else {
+                    logger.log(Level.INFO, "POOL NOT OK! free con: {}, used con: {}", queue.size(), usedQueue.size());
+                    for (int i = 0; i < POOL_SIZE - queue.size(); i++) {
+                        queue.add(createConnection());
                     }
                 }
-            };
-            poolTimer.schedule(task, 0, 10000);
+            }
+        };
+        poolTimer.schedule(task, 0, 10000);
     }
 
 //    private void destrConnect(){

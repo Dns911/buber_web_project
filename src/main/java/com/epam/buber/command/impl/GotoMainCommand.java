@@ -13,10 +13,9 @@ public class GotoMainCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
-//        request.getSession().setAttribute("current_page",PagePath.MAIN); //todo
         HttpSession session = request.getSession();
-        if (session.getAttribute(SessionAttrName.USER_LOGIN) == null){
-            session.setAttribute(SessionAttrName.USER_LOGIN, AttrValue.GUEST_MSG); //todo
+        if (session.getAttribute(SessionAttrName.USER_LOGIN) == null) {
+            session.setAttribute(SessionAttrName.USER_LOGIN, AttrValue.GUEST_MSG);
         }
         return new Router(PagePath.MAIN, Router.RouterType.FORWARD);
     }

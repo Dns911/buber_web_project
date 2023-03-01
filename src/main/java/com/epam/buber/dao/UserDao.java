@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface UserDao {
-    boolean authenticate(String login, String password, String role) throws DaoException;
-    boolean registration(HashMap<String, String> map) throws DaoException;
-    User findByEmailRole(String login, String role) throws DaoException;
-    List<User> findAllByRole(String role) throws DaoException;
+    boolean authenticate(String login, String password, UserRole role) throws DaoException;
+    boolean registration(HashMap<String, Object> map) throws DaoException;
+    User findByEmailRole(String login, UserRole role) throws DaoException;
+    List<User> findAllByRole(UserRole role) throws DaoException;
     boolean changePassword(String email, String passHex, UserRole role) throws DaoException;
 }

@@ -1,4 +1,5 @@
-Dear driver [INSERT_TEXT],
+Buber's registration!
+Dear driver [INSERT_TEXT]0,
 
 Welcome to bUber!
 We're thrilled to have you on board as a new member of our team.

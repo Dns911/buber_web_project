@@ -1,5 +1,6 @@
 package com.epam.buber.controller.filter;
 
+import com.epam.buber.controller.info.SessionAttrName;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class ForwardFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpSession session = httpServletRequest.getSession();
-        session.setAttribute("filter_attr", "DispatcherType.FORWARD");
+        session.setAttribute(SessionAttrName.FILTER_ATTR, "DispatcherType.FORWARD");
         chain.doFilter(request, response);
     }
 }

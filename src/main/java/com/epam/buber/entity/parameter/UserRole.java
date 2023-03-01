@@ -24,14 +24,6 @@ public enum UserRole {
     }
 
     public static UserRole define(String strRole){
-//        UserRole currentRole = GUEST;
-//
-//        try{
-//            currentRole = UserRole.valueOf(strRole);
-//        } catch (IllegalArgumentException e){
-//            logger.log(Level.DEBUG, "Command name exception: {}", e.getMessage());
-//            return GUEST;
-//        }
         List<UserRole> list = Arrays.stream(UserRole.values()).filter(o->o.getStringRole().equals(strRole)).toList();
         return list.get(0);
     }

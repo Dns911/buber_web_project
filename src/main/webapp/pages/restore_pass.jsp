@@ -15,13 +15,13 @@
 
 <form class="form_login" action="controller" method="post">
     <input type="hidden" name="command" value="restore_pass"/>
-    <input class="input" type="text" name="login" value="" placeholder="Ваш email"><span class="red_text"> ${requestScope.login_err}</span>
+    <input class="input_registr" type="text" name="login" value="" placeholder="Ваш email"><span class="red_text"> ${requestScope.login_err}</span>
     <div>
         <input type="radio" name="user_role" checked value="client"/>Пассажир
         <input type="radio" name="user_role" value="driver"/>Водитель
     </div>
     <%--    <input class="button" type="submit" name="but2" value="Стать пользователем"/>--%>
-    <button class="btn" type="submit">Сгенерировать новый пароль</button>
+    <button class="btn_dark_blue" type="submit">Сгенерировать новый пароль</button>
 </form>
 
 

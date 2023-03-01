@@ -19,7 +19,7 @@
     <br/>
     ${filter_attr}
     <input type="hidden" name="command" value="default">
-    <input class="btn" type="submit" name="but" value="Back to login"/>
+    <input class="btn_dark_blue" type="submit" name="but" value="Back to login"/>
     <br/>
     ${pageContext.session.id}
 </form>

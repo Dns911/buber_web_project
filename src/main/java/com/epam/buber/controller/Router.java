@@ -3,6 +3,7 @@ package com.epam.buber.controller;
 public class Router {
     private String page;
     private RouterType type = RouterType.FORWARD;
+
     public enum RouterType {
         FORWARD, REDIRECT
     }

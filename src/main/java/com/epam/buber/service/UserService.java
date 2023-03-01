@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface UserService {
-    boolean authenticate(String login, String password, String role) throws ServiceException;
-    boolean registration(HashMap<String, String> map) throws ServiceException;
-    User getUserFromBD(String login, String role) throws ServiceException;
-    List<User> getUserListByRole(String role) throws ServiceException;
+    boolean authenticate(String login, String password,UserRole role) throws ServiceException;
+    boolean addUser(HashMap<String, Object> map) throws ServiceException;
+    User getUserFromBD(String login, UserRole role) throws ServiceException;
+    List<User> getUserListByRole(UserRole role) throws ServiceException;
     String getNewPassword(String login, UserRole role) throws ServiceException;
 }

@@ -1,6 +1,7 @@
 package com.epam.buber.command.impl;
 
 import com.epam.buber.command.Command;
+import com.epam.buber.controller.info.AttrValue;
 import com.epam.buber.controller.info.PagePath;
 import com.epam.buber.controller.info.RequestParameterName;
 import com.epam.buber.controller.Router;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 
 public class AddUserCommand implements Command {
     private static Logger logger = LogManager.getLogger();
+
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         logger.log(Level.INFO, "start exec req name: " + request.toString());
@@ -29,7 +31,7 @@ public class AddUserCommand implements Command {
         EmailService emailService = EmailServiceImpl.getInstance();
         CommonService commonService = CommonServiceImpl.getInstance();
         UserRole role = UserRole.define(request.getParameter(RequestParameterName.USER_ROLE));
-        HashMap<String, String> map = commonService.createMapFromRequest(request,
+        HashMap<String, Object> map = commonService.createMapFromRequest(request,
                 RequestParameterName.USER_ROLE,
                 RequestParameterName.EMAIL,
                 RequestParameterName.PASSWORD,
@@ -37,24 +39,21 @@ public class AddUserCommand implements Command {
                 RequestParameterName.PHONE_NUM,
                 RequestParameterName.USER_NAME,
                 RequestParameterName.USER_LASTNAME);
-
-        if (role.equals(UserRole.DRIVER)){
+        if (role.equals(UserRole.DRIVER)) {
             map.put(RequestParameterName.DRIVER_LIC_NUMBER, request.getParameter(RequestParameterName.DRIVER_LIC_NUMBER));
             map.put(RequestParameterName.DRIVER_LIC_VALID, request.getParameter(RequestParameterName.DRIVER_LIC_VALID));
         }
         String page;
         Router router;
         try {
-            if (userService.registration(map)){
+            if (userService.addUser(map)) {
                 page = PagePath.REGISTRATION_SUCCESS;
-                EmailService.EmailType type = role.equals(UserRole.DRIVER) ? EmailService.EmailType.WELCOME_DRIVER : EmailService.EmailType.WELCOME_CLIENT;
-                emailService.sendEmail(map.get(RequestParameterName.EMAIL), map.get(RequestParameterName.USER_NAME), type);
+                EmailService.EmailType type = role.equals(UserRole.DRIVER) ? EmailService.EmailType.WELCOME_DRIVER_1 : EmailService.EmailType.WELCOME_CLIENT_1;
+                emailService.sendEmail(map.get(RequestParameterName.EMAIL).toString(), type, map.get(RequestParameterName.USER_NAME).toString());
                 logger.log(Level.INFO, "Message has sent to email: {}", map.get(RequestParameterName.EMAIL));
                 router = new Router(page, Router.RouterType.REDIRECT);
             } else {
-                request.setAttribute(RequestParameterName.REGISTR_MSG, "Введите одинаковые пароли или " +
-                        "заполните корректные параметры в пустых ячейках");
-//                request.setAttribute(RequestParameterName.REGISTR_MSG, "User couldn't be add!");
+                request.setAttribute(RequestParameterName.REGISTR_MSG, AttrValue.REGISTR_MSG);
                 commonService.setRequestValue(request, map,
                         RequestParameterName.EMAIL,
                         RequestParameterName.PHONE_NUM,
@@ -62,7 +61,7 @@ public class AddUserCommand implements Command {
                         RequestParameterName.USER_LASTNAME,
                         RequestParameterName.PASSWORD,
                         RequestParameterName.PASSWORD_CHECK);
-                if (role.equals(UserRole.DRIVER)){
+                if (role.equals(UserRole.DRIVER)) {
                     commonService.setRequestValue(request, map,
                             RequestParameterName.DRIVER_LIC_NUMBER,
                             RequestParameterName.DRIVER_LIC_VALID);

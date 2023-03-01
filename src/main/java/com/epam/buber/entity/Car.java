@@ -1,6 +1,6 @@
 package com.epam.buber.entity;
 
-import com.epam.buber.entity.parameter.CarBody;
+import com.epam.buber.entity.parameter.CarClass;
 
 import java.time.Year;
 import java.util.Objects;
@@ -8,24 +8,16 @@ import java.util.Objects;
 public class Car extends AbstractEntity{
     private String idCar;
     private String model;
-    private CarBody carBody;
+    private CarClass carClass;
     private Year yearIssue;
+
     private String color;
     private String owner;
 
     public Car() {
     }
 
-    public Car(String idCar, String model, CarBody carBody, Year yearIssue, String color, String owner) {
-        this.idCar = idCar;
-        this.model = model;
-        this.carBody = carBody;
-        this.yearIssue = yearIssue;
-        this.color = color;
-        this.owner = owner;
-    }
-
-    public String getIdCar() {
+    public String getId() {
         return idCar;
     }
 
@@ -41,12 +33,12 @@ public class Car extends AbstractEntity{
         this.model = model;
     }
 
-    public CarBody getCarBody() {
-        return carBody;
+    public CarClass getCarClass() {
+        return carClass;
     }
 
-    public void setCarBody(CarBody carBody) {
-        this.carBody = carBody;
+    public void setCarClass(CarClass carClass) {
+        this.carClass = carClass;
     }
 
     public Year getYearIssue() {
@@ -78,10 +70,10 @@ public class Car extends AbstractEntity{
         if (this == o) return true;
         if (!(o instanceof Car)) return false;
         Car car = (Car) o;
-        return Objects.equals(getIdCar(),
-                car.getIdCar()) && Objects.equals(getModel(),
-                car.getModel()) && Objects.equals(getCarBody(),
-                car.getCarBody()) && Objects.equals(getYearIssue(),
+        return Objects.equals(getId(),
+                car.getId()) && Objects.equals(getModel(),
+                car.getModel()) && Objects.equals(getCarClass(),
+                car.getCarClass()) && Objects.equals(getYearIssue(),
                 car.getYearIssue()) && Objects.equals(getColor(),
                 car.getColor()) && Objects.equals(getOwner(),
                 car.getOwner());
@@ -89,7 +81,7 @@ public class Car extends AbstractEntity{
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIdCar(), getModel(), getCarBody(), getYearIssue(), getColor(), getOwner());
+        return Objects.hash(getId(), getModel(), getCarClass(), getYearIssue(), getColor(), getOwner());
     }
 
     @Override
@@ -97,7 +89,7 @@ public class Car extends AbstractEntity{
         final StringBuilder sb = new StringBuilder("Car{");
         sb.append(" idCar='").append(idCar).append('\'');
         sb.append("\n model='").append(model).append('\'');
-        sb.append("\n carBody='").append(carBody).append('\'');
+        sb.append("\n carClass='").append(carClass).append('\'');
         sb.append("\n yearIssue=").append(yearIssue);
         sb.append("\n color='").append(color).append('\'');
         sb.append("\n owner='").append(owner).append('\'');

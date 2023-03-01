@@ -21,7 +21,7 @@ Exception: ${pageContext.exception.message}<br/>
 Message from exception: ${error_msg}
 <br/><br/>
 <form class="form_center" action="${pageContext.request.contextPath}/index.jsp">
-    <input class="btn" type="submit" name="but1" value="Back home"/>
+    <input class="btn_dark_blue" type="submit" name="but1" value="Back home"/>
 </form>
 </body>
 </html>

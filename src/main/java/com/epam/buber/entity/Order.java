@@ -5,31 +5,27 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Order extends AbstractEntity{
+    public static final int DEFAULT_ID = -1;
     private int idOrder;
-    private int idUser;
-    private int idDriverShift;
+    private Client client;
+    private DriverShift driverShift;
     private Date date;
     private Time startTime; //SQL Time
     private Time finishTime; //SQL Time
-    private double length; //km
+    private String startPoint;
+    private String finishPoint;
+    private double distance; //km
     private double cost; //0.00 BYN
     private double rateFromClient; //5.0
     private double rateFromDriver; //5.0
 
+    private boolean status;
+
     public Order() {
     }
 
-    public Order(int idOrder, int idUser, int idDriverShift, Date date, Time startTime, Time finishTime, double length, double cost, double rateFromClient, double rateFromDriver) {
+    public Order(int idOrder) {
         this.idOrder = idOrder;
-        this.idUser = idUser;
-        this.idDriverShift = idDriverShift;
-        this.date = date;
-        this.startTime = startTime;
-        this.finishTime = finishTime;
-        this.length = length;
-        this.cost = cost;
-        this.rateFromClient = rateFromClient;
-        this.rateFromDriver = rateFromDriver;
     }
 
     public int getIdOrder() {
@@ -40,20 +36,20 @@ public class Order extends AbstractEntity{
         this.idOrder = idOrder;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public Client getClient() {
+        return client;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public int getIdDriverShift() {
-        return idDriverShift;
+    public DriverShift getDriverShift() {
+        return driverShift;
     }
 
-    public void setIdDriverShift(int idDriverShift) {
-        this.idDriverShift = idDriverShift;
+    public void setDriverShift(DriverShift driverShift) {
+        this.driverShift = driverShift;
     }
 
     public Date getDate() {
@@ -80,12 +76,28 @@ public class Order extends AbstractEntity{
         this.finishTime = finishTime;
     }
 
-    public double getLength() {
-        return length;
+    public String getStartPoint() {
+        return startPoint;
     }
 
-    public void setLength(double length) {
-        this.length = length;
+    public void setStartPoint(String startPoint) {
+        this.startPoint = startPoint;
+    }
+
+    public String getFinishPoint() {
+        return finishPoint;
+    }
+
+    public void setFinishPoint(String finishPoint) {
+        this.finishPoint = finishPoint;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public double getCost() {
@@ -112,40 +124,54 @@ public class Order extends AbstractEntity{
         this.rateFromDriver = rateFromDriver;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order)) return false;
-        Order order = (Order) o;
-        return getIdOrder() == order.getIdOrder() && getIdUser() == order.getIdUser() &&
-                getIdDriverShift() == order.getIdDriverShift() && Double.compare(order.getLength(),
-                getLength()) == 0 && Double.compare(order.getCost(),
-                getCost()) == 0 && Double.compare(order.getRateFromClient(),
-                getRateFromClient()) == 0 && Double.compare(order.getRateFromDriver(),
-                getRateFromDriver()) == 0 && Objects.equals(getDate(),
-                order.getDate()) && Objects.equals(getStartTime(),
-                order.getStartTime()) && Objects.equals(getFinishTime(),
-                order.getFinishTime());
+        if (!(o instanceof Order order)) return false;
+        return getIdOrder() == order.getIdOrder() &&
+                Double.compare(order.getDistance(), getDistance()) == 0 &&
+                Double.compare(order.getCost(), getCost()) == 0 &&
+                Double.compare(order.getRateFromClient(), getRateFromClient()) == 0 &&
+                Double.compare(order.getRateFromDriver(), getRateFromDriver()) == 0 &&
+                getStatus() == order.getStatus() && Objects.equals(getClient(), order.getClient()) &&
+                Objects.equals(getDriverShift(), order.getDriverShift()) &&
+                Objects.equals(getDate(), order.getDate()) && Objects.equals(getStartTime(), order.getStartTime()) &&
+                Objects.equals(getFinishTime(), order.getFinishTime()) &&
+                Objects.equals(getStartPoint(), order.getStartPoint()) &&
+                Objects.equals(getFinishPoint(), order.getFinishPoint());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIdOrder(), getIdUser(), getIdDriverShift(), getDate(), getStartTime(), getFinishTime(), getLength(), getCost(), getRateFromClient(), getRateFromDriver());
+        return Objects.hash(getIdOrder(), getClient(), getDriverShift(), getDate(), getStartTime(), getFinishTime(),
+                getStartPoint(), getFinishPoint(), getDistance(), getCost(), getRateFromClient(), getRateFromDriver(),
+                getStatus());
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Order{");
-        sb.append("                idOrder=").append(idOrder);
-        sb.append("\n idUser=").append(idUser);
-        sb.append("\n idDriverShift=").append(idDriverShift);
-        sb.append("\n date=").append(date);
-        sb.append("\n startTime=").append(startTime);
-        sb.append("\n finishTime=").append(finishTime);
-        sb.append("\n length=").append(length);
-        sb.append("\n cost=").append(cost);
-        sb.append("\n rateFromClient=").append(rateFromClient);
-        sb.append("\n rateFromDriver=").append(rateFromDriver);
+        sb.append(" idOrder=").append(idOrder);
+        sb.append("\nclient=").append(client);
+        sb.append("\ndriverShift=").append(driverShift);
+        sb.append("\ndate=").append(date);
+        sb.append("\nstartTime=").append(startTime);
+        sb.append("\nfinishTime=").append(finishTime);
+        sb.append("\nstartPoint='").append(startPoint).append('\'');
+        sb.append("\nfinishPoint='").append(finishPoint).append('\'');
+        sb.append("\ndistance=").append(distance);
+        sb.append("\ncost=").append(cost);
+        sb.append("\nrateFromClient=").append(rateFromClient);
+        sb.append("\nrateFromDriver=").append(rateFromDriver);
+        sb.append("\nendOrder=").append(status);
         sb.append('}');
         return sb.toString();
     }

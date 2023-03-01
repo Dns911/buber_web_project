@@ -21,13 +21,6 @@ public enum DriverStatus{
     }
 
     public static DriverStatus define(String strStatus){
-//        DriverStatus currentStatus = APPLICANT;
-//        try{
-//            currentStatus = DriverStatus.valueOf(strStatus);
-//        } catch (IllegalArgumentException e){
-//            logger.log(Level.DEBUG, "Driver status exception: {}", e.getMessage());
-//            return APPLICANT;
-//        }
         List<DriverStatus> list = Arrays.stream(DriverStatus.values()).filter(o->o.getStringStatus().equals(strStatus)).toList();
         return list.get(0);
     }

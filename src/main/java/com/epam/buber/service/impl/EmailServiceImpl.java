@@ -26,6 +26,7 @@ public class EmailServiceImpl implements EmailService {
 
     private EmailServiceImpl() {
     }
+
     public static EmailServiceImpl getInstance() {
         if (emailInstance == null) {
             emailInstance = new EmailServiceImpl();
@@ -33,27 +34,11 @@ public class EmailServiceImpl implements EmailService {
         return emailInstance;
     }
 
-    private Properties readProp(String propertyFile){
-        Properties properties = new Properties();
-        try (InputStream inputStream = EmailServiceImpl.class.getClassLoader().getResourceAsStream(propertyFile)) {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-        return properties;
-    }
-
     private String[] readPattern(String file) {
         File txtFile = new File(file);
 
-        String[] stringArr = {"",""};
+        String[] stringArr = {"", ""};
         try (InputStream inputStream = EmailServiceImpl.class.getClassLoader().getResourceAsStream(file)) {
-
-//            logger.log(Level.INFO, "/-/-/-" +txtFile.getAbsolutePath());
-//            logger.log(Level.INFO, "/-/-/-" +txtFile.getPath());
-//            logger.log(Level.INFO, "/-/-/-" +txtFile.toPath());
-//            logger.log(Level.INFO, "/-/-/-" +txtFile.getParent());
-//            logger.log(Level.INFO, "/-/-/-" +txtFile);
             Scanner scanner = new Scanner(inputStream);
             stringArr[0] = scanner.nextLine();
             while (scanner.hasNextLine()) {
@@ -66,14 +51,15 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendEmail(String toAddress, String insertText, EmailType type) {
-        Properties prop = readProp(GMAIL_PROPERTIES);
+    public void sendEmail(String toAddress, EmailType type, String... insertText) {
+        CommonServiceImpl commonService = CommonServiceImpl.getInstance();
+        Properties prop = commonService.readProperties(GMAIL_PROPERTIES);
         Session session = Session.getDefaultInstance(prop,
                 new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(prop.getProperty(USER),
-                                                        prop.getProperty(PASSWORD));
+                                prop.getProperty(PASSWORD));
                     }
                 });
         try {
@@ -81,12 +67,18 @@ public class EmailServiceImpl implements EmailService {
             message.setFrom(new InternetAddress(prop.getProperty(FROM)));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(toAddress));
             String[] subWithText = readPattern(type.getFile());
-
             message.setSubject(subWithText[0]);
-            message.setText(subWithText[1].replaceFirst("\\[INSERT_TEXT\\]", insertText));
+            String mainText = subWithText[1];
+            int i = 0;
+            for (String str :
+                    insertText) {
+                mainText = mainText.replaceFirst("\\[INSERT_TEXT\\]" + i, str);
+                i++;
+            }
+            message.setText(mainText);
             Transport.send(message);
         } catch (MessagingException e) {
-            logger.log(Level.WARN,"Message don't send to EMAIL: {}", e.getMessage());
+            logger.log(Level.WARN, "Message don't send to EMAIL: {}", e.getMessage());
         }
     }
 }

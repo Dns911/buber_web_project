@@ -134,8 +134,8 @@ async function getRoute(start, end) {
     const json = await query.json();
     const data = json.routes[0];
     const route = data.geometry.coordinates;
-    document.getElementById('distance').value = data.distance; //getting dist (m) on page
-    document.getElementById('duration').value = data.duration; //getting duration (sec) on page
+    document.getElementById('distance').value = (data.distance / 1000).toFixed(2) ; //getting dist (m) on page
+    document.getElementById('duration').value = Math.ceil(data.duration / 60); //getting duration (sec) on page
     const geojson = {
         type: 'Feature',
         properties: {},

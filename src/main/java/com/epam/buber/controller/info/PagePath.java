@@ -7,7 +7,7 @@ public class PagePath {
     public static final String INDEX = "index.jsp";
     public static final String LOGIN = "pages/login.jsp";
     public static final String MAIN = "pages/main.jsp";
-    public static final String ORDER = "pages/order.jsp";
+    public static final String PREORDER = "pages/preorder.jsp";
     public static final String CLIENT_PAGE = "pages/client_page.jsp";
     public static final String ADMIN_PAGE = "pages/admin_page.jsp";
     public static final String DRIVER_PAGE = "pages/driver_page.jsp";
@@ -17,5 +17,7 @@ public class PagePath {
     public static final String REGISTRATION_SUCCESS = "pages/registration/registration_success.jsp";
     public static final String ERROR_500 = "pages/error/error_500.jsp";
     public static final String ERROR_404 = "pages/error/error_404.jsp";
+    public static final String ORDER_INFO_CLIENT = "pages/info/order_info_client.jsp";
+    public static final String ORDER_INFO_DRIVER = "pages/info/order_info_driver.jsp";
 
 }

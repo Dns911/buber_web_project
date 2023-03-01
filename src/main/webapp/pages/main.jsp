@@ -18,7 +18,7 @@
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
     <style>
         body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; left: 20%;  width: 80%;}
+        #map { position: absolute; top: 0; bottom: 0; left: 350px;  right: 0;}
     </style>
 </head>
 <body>
@@ -41,15 +41,28 @@
     <br/>
     <br/>
     <div>
-        <div>
-            <input type="radio" name="class_auto" value="economy"/>Эконом
-            <input type="radio" name="class_auto" value="standard" checked/>Стандарт
-        </div>
-        <div>
-            <input type="radio" name="class_auto" value="business"/>Бизнес
-            <input type="radio" name="class_auto" value="minivan"/>Минивэн
+        <div class="form_radio_group">
+            <div class="form_radio_group-item">
+                <input id="radio-1" type="radio" name="class_auto" value="economy">
+                <label for="radio-1">Эконом</label>
+            </div>
+            <div class="form_radio_group-item">
+                <input id="radio-2" type="radio" name="class_auto" value="standard"  checked>
+                <label for="radio-2">Стандарт</label>
+            </div>
         </div>
     </div>
+    <div>
+        <div class="form_radio_group">
+            <div class="form_radio_group-item">
+                <input id="radio1-1" type="radio" name="class_auto" value="business">
+                <label for="radio1-1">Бизнес</label>
+            </div>
+            <div class="form_radio_group-item">
+                <input id="radio1-2" type="radio" name="class_auto" value="minivan">
+                <label for="radio1-2">Минивен</label>
+            </div>
+    </div></div>
     <div>
         <select name="pay_method">
             <option selected value=cash">Наличные</option>
@@ -57,10 +70,13 @@
         </select>
     </div>
     <div>
-        <input type="text" name="comment_for_driver" placeholder="Комментарий водителю..." maxlength="40">
+<%--        <input type="text"  rows="3" name="comment_for_driver" placeholder="Комментарий водителю..." maxlength="40">--%>
+
+        <textarea name="comment_for_driver" style="resize: none" rows="2" placeholder="Комментарий водителю..." maxlength="60"></textarea>
+
     </div>
-    <div><input type="text" id="duration" name="duration"></div>
-    <div><input type="text" id="distance" name="distance"></div>
+    <div><input type="number" step="0.01" id="duration" name="duration"></div>
+    <div><input type="" step="0.01" id="distance" name="distance"></div>
     start
     <div>
         <input type="text" id="start_street" name="start_street">
@@ -90,7 +106,8 @@
     <input type="hidden" name="command" value="preorder"/>
     <input type="submit" name="button_order" value="Перейти к заказу">
 </form>
-    ${pageContext.session.id}
+<div>${requestScope.preorder_msg}</div>
+<%--    ${pageContext.session.id}--%>
 <script src="${pageContext.request.contextPath}/pages/map/main.js"></script>
 </body>
 </html>

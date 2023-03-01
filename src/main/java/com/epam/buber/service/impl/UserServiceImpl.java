@@ -37,10 +37,10 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public boolean authenticate(String login, String password, String role) throws ServiceException {
-        if (!(StringValidator.isEmail(login) || StringValidator.isPhoneNum(login)) || !StringValidator.isPassword(password)){
+    public boolean authenticate(String login, String password, UserRole role) throws ServiceException {
+        if (!(StringValidator.isEmail(login) || StringValidator.isPhoneNum(login)) || !StringValidator.isPassword(password)) {
             // TODO: 18-Jan-23  add logger (unsuccessful login, date, time)
-            logger.log(Level.INFO,"Validation not completed");
+            logger.log(Level.INFO, "Validation not completed");
             return false;
         }
 
@@ -58,14 +58,14 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public boolean registration(HashMap<String, String> map) throws ServiceException {
-        if (!MapValidator.userFormValid(map)){
-            logger.log(Level.INFO,"Registration not completed, check parameters");
+    public boolean addUser(HashMap<String, Object> map) throws ServiceException {
+        if (!MapValidator.userFormValid(map)) {
+            logger.log(Level.INFO, "Registration not completed, check parameters");
             return false;
         }
         UserDaoImpl userDao = UserDaoImpl.getInstance();
-        logger.log(Level.INFO,"dao work");
-        String passwordHex = DigestUtils.md5Hex(map.get(RequestParameterName.PASSWORD));
+        logger.log(Level.INFO, "dao work");
+        String passwordHex = DigestUtils.md5Hex(map.get(RequestParameterName.PASSWORD).toString());
         map.put(RequestParameterName.PASSWORD, passwordHex);
         boolean match = false;
         try {
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserFromBD(String login, String role) throws ServiceException {
+    public User getUserFromBD(String login, UserRole role) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         User user;
         try {
@@ -88,7 +88,8 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
-    public List<User> getUserListByRole(String role) throws ServiceException {
+
+    public List<User> getUserListByRole(UserRole role) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         List<User> userList = new ArrayList<>();
         try {
@@ -99,14 +100,14 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
-    public String getNewPassword(String login, UserRole role) throws ServiceException{
+    public String getNewPassword(String login, UserRole role) throws ServiceException {
         CommonServiceImpl commonService = CommonServiceImpl.getInstance();
         String newPass = commonService.generateRandomPassword(LENGTH);
         String passwordHex = DigestUtils.md5Hex(newPass);
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         String result;
         try {
-             result = userDao.changePassword(login, passwordHex, role) ? newPass : NEW_PASS_ERROR;
+            result = userDao.changePassword(login, passwordHex, role) ? newPass : NEW_PASS_ERROR;
 
         } catch (DaoException e) {
             throw new ServiceException(e);

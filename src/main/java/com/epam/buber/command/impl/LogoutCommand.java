@@ -13,10 +13,11 @@ import java.util.Date;
 
 public class LogoutCommand implements Command {
     private static Logger logger = LogManager.getLogger();
+
     @Override
     public Router execute(HttpServletRequest request) {
         long time = System.currentTimeMillis();
-        logger.log(Level.INFO,"{} --User logout from system!", new Date(time));
+        logger.log(Level.INFO, "{} --User logout from system!", new Date(time));
         request.getSession().invalidate();
         Router router = new Router(PagePath.INDEX, Router.RouterType.FORWARD);
         return router;

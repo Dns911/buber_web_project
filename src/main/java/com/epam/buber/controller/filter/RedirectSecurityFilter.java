@@ -11,6 +11,7 @@ import java.io.IOException;
         initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
 public class RedirectSecurityFilter implements Filter {
     private String indexPath;
+
     public void init(FilterConfig filterConfig) throws ServletException {
         indexPath = filterConfig.getInitParameter("INDEX_PATH");
     }
