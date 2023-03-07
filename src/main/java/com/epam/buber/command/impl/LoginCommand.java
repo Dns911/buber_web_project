@@ -7,7 +7,7 @@ import com.epam.buber.controller.info.SessionAttrName;
 import com.epam.buber.entity.Driver;
 import com.epam.buber.entity.ListDriverShift;
 import com.epam.buber.entity.User;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 import com.epam.buber.exception.CommandException;
 import com.epam.buber.exception.ServiceException;
 import com.epam.buber.service.UserService;
@@ -29,14 +29,14 @@ public class LoginCommand implements Command {
         Router router;
         try {
             if (userService.authenticate(login, password, role)) {
-                User user = userService.getUserFromBD(login, role);
+                User user = userService.findUser(login, role);
                 request.setAttribute(RequestParameterName.USER, login);
                 session.setAttribute(SessionAttrName.USER_LOGIN, login);
-                session.setAttribute(SessionAttrName.USER_ROLE, role.getStringRole());
+                session.setAttribute(SessionAttrName.USER_ROLE, role.toString());
                 session.setAttribute(SessionAttrName.USER_ID, user.getId());
                 if (role.equals(UserRole.DRIVER)) {
                     Driver driver = (Driver) user;
-                    session.setAttribute(SessionAttrName.DRIVER_SYSTEM_STATUS, driver.getStatus().getStringStatus());
+                    session.setAttribute(SessionAttrName.DRIVER_SYSTEM_STATUS, driver.getStatus().toString());
                     ListDriverShift listDriverShift = ListDriverShift.getInstance();
                     if (listDriverShift.checkFreeQueue(driver.getId())) {
                         session.setAttribute(SessionAttrName.DRIVER_WORK_STATUS, AttrValue.STATUS_MSG_WAIT_ORDER);

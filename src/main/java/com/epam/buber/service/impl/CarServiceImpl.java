@@ -7,7 +7,6 @@ import com.epam.buber.exception.DaoException;
 import com.epam.buber.exception.ServiceException;
 import com.epam.buber.service.CarService;
 import com.epam.buber.validator.StringValidator;
-import com.epam.buber.validator.ValidParameter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,13 +28,13 @@ public class CarServiceImpl implements CarService {
         return carServiceImplInstance;
     }
 
-    @Override
-    public Car getCarFromBD(String carId) throws ServiceException {
+    public Car findCar(String carId) throws ServiceException {
         CarDao carDao = CarDaoImpl.getInstance();
         Car car = new Car();
+        car.setIdCar(carId);
         try {
             if (!carId.isEmpty() || StringValidator.isCarId(carId)){
-                car = carDao.getCar(carId);
+                car = carDao.find(car);
             } else {
                 car.setIdCar(CAR_ID_NOT_VALID);
             }
@@ -45,12 +44,10 @@ public class CarServiceImpl implements CarService {
         return car;
     }
 
-    @Override
-    public List<Car> getCarsFromBD() throws ServiceException {
+    public List<Car> findAllCars() throws ServiceException {
         return null;
     }
 
-    @Override
     public boolean insertCar(HashMap<String, String> map) throws ServiceException {
         return false;
     }

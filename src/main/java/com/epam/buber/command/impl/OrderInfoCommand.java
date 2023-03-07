@@ -6,10 +6,10 @@ import com.epam.buber.controller.info.AttrValue;
 import com.epam.buber.controller.info.PagePath;
 import com.epam.buber.controller.info.RequestParameterName;
 import com.epam.buber.controller.info.SessionAttrName;
-import com.epam.buber.entity.DriverShift;
+import com.epam.buber.entity.ShiftDriver;
 import com.epam.buber.entity.ListDriverShift;
 import com.epam.buber.entity.Order;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 import com.epam.buber.exception.CommandException;
 import com.epam.buber.service.impl.OrderServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ public class OrderInfoCommand implements Command {
         String page;
         if (role.equals(UserRole.DRIVER)) {
             if (listShift.checkOrderedListByDriverId(userId)) {
-                DriverShift shift = listShift.getShiftOrderedByDriverId(userId);
+                ShiftDriver shift = listShift.getShiftOrderedByDriverId(userId);
                 Order order = shift.getCurrentOrder();
                 orderService.orderInfo(request, order, UserRole.DRIVER);
                 page = PagePath.ORDER_INFO_DRIVER;
@@ -39,7 +39,7 @@ public class OrderInfoCommand implements Command {
             }
         } else {
             if (listShift.checkOrderedByClientId(userId)) {
-                DriverShift shift = listShift.getShiftOrderedByClientId(userId);
+                ShiftDriver shift = listShift.getShiftOrderedByClientId(userId);
                 Order order = shift.getCurrentOrder();
                 if (order.getRateFromClient() == 0) {
                     orderService.orderInfo(request, order, UserRole.CLIENT);

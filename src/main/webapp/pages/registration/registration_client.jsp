@@ -6,25 +6,23 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
+<%--<!DOCTYPE html>--%>
 <html>
-
 <head>
-    <title>Registration</title>
+    <title>New client</title>
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
 <style>
     body{
-        background-image: url(${pageContext.request.contextPath}/resources/img/wallpaper_login_3.jpg);
+        background-image: url(${pageContext.request.contextPath}/resources/img/wallpaper_login_2.jpg);
         background-size: 100%;
         background-position: 0 100%;
     }
 </style>
-
 <header>
-    <h1 class="h1_center">
-        Регистрация нового пользователя
+    <h1>
+        Регистрация нового клиента
     </h1>
 </header>
 <form class="form_center" action="${pageContext.request.contextPath}/controller" method="post">
@@ -38,16 +36,11 @@
     <input class="input_registr" type="password" name="password_check" placeholder="Пароль еще раз" value=""/><span class="red_text"> ${requestScope.password_check_err}</span>
     <span class="red_text"> ${requestScope.registr_msg}</span>
     <input class="btn_dark_blue" type="submit" name="but" value="Регистрация"/>
-
-    <br/>
-
-    ${requestScope.user_role}
-    ${filter_attr}
 </form>
-<simpleType name="phone_numb">
-    <restriction base="string">
-        <pattern value="+375([0-9][0-9])[0-9][0-9][0-9][0-9][0-9][0-9][0-9]"/>
-    </restriction>
-</simpleType>
+<footer style="color: #f8f8f8;font-size: 15px; position: absolute; bottom: 5px" >
+    <h6>
+        Minsk, 2023
+    </h6>
+</footer>
 </body>
 </html>

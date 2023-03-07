@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/epam/buber/dao/impl/UserDaoImpl.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/epam/buber/dao/impl/CarDaoImpl.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/epam/buber/dao/impl/OrderDaoImpl.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/epam/buber/dao/impl/ShiftDaoImpl.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/epam/buber/dao/impl/UserDaoImpl.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/test.sql" dialect="MySQL" />
   </component>
 </project>

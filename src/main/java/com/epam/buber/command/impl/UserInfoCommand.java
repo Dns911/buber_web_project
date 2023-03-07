@@ -8,51 +8,41 @@ import com.epam.buber.controller.info.SessionAttrName;
 import com.epam.buber.entity.Client;
 import com.epam.buber.entity.Driver;
 import com.epam.buber.entity.User;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 import com.epam.buber.exception.CommandException;
 import com.epam.buber.exception.ServiceException;
 import com.epam.buber.service.UserService;
 import com.epam.buber.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class UserInfoCommand implements Command {
-    private static Logger logger = LogManager.getLogger();
-
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
-        logger.log(Level.INFO, "user info command");
         UserService userService = UserServiceImpl.getInstance();
         User user;
         HttpSession session = request.getSession();
         Router router;
         String page;
         String login = session.getAttribute(SessionAttrName.USER_LOGIN).toString();
-        logger.log(Level.INFO, "login " + login);
         UserRole role = UserRole.define((String) session.getAttribute(SessionAttrName.USER_ROLE));
-        logger.log(Level.INFO, "role " + role);
         try {
-            user = userService.getUserFromBD(login, role);
+            user = userService.findUser(login, role);
             UserRole currentRole = user.getRole();
-            session.setAttribute(SessionAttrName.USER_ROLE, currentRole.getStringRole());
+            session.setAttribute(SessionAttrName.USER_ROLE, currentRole.toString());
             request.setAttribute(RequestParameterName.ID, user.getId());
             request.setAttribute(RequestParameterName.PHONE_NUM, user.getPhoneNum());
             request.setAttribute(RequestParameterName.USER_NAME, user.getName());
             request.setAttribute(RequestParameterName.USER_LASTNAME, user.getLastName());
             request.setAttribute(RequestParameterName.DATE_REGISTRY, user.getRegistrationDate());
             request.setAttribute(RequestParameterName.RATE, user.getRate());
-
             if (currentRole.equals(UserRole.DRIVER)) {
                 request.setAttribute(RequestParameterName.DRIVER_LIC_VALID, ((Driver) user).getLicenceValidDate());
                 request.setAttribute(RequestParameterName.INCOME_SUM, ((Driver) user).getIncomeSum());
-                request.setAttribute(RequestParameterName.STATUS, ((Driver) user).getStatus().getStringStatus());
+                request.setAttribute(RequestParameterName.STATUS, ((Driver) user).getStatus().toString());
                 page = PagePath.DRIVER_PAGE;
             } else if (currentRole.equals(UserRole.CLIENT)) {
                 request.setAttribute(RequestParameterName.PAYMENT_SUM, ((Client) user).getPaymentSum());
-                logger.log(Level.INFO, "client");
                 page = PagePath.CLIENT_PAGE;
             } else {
                 page = PagePath.ADMIN_PAGE;

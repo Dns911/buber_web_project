@@ -1,7 +1,6 @@
 package com.epam.buber.entity;
 
-import com.epam.buber.entity.parameter.DriverStatus;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.DriverStatus;
 
 
 import java.sql.Date;
@@ -14,6 +13,7 @@ public class Driver extends User{
     private DriverStatus status;
 
     public Driver() {
+        super();
     }
 
     public Driver(String licenceNum, Date licenceValidDate, double incomeSum, DriverStatus status) {
@@ -22,7 +22,6 @@ public class Driver extends User{
         this.incomeSum = incomeSum;
         this.status = status;
     }
-
 
     public String getLicenceNum() {
         return licenceNum;

@@ -1,5 +1,6 @@
 package com.epam.buber.service.impl;
 
+import com.epam.buber.exception.ServiceException;
 import com.epam.buber.service.EmailService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -35,11 +36,9 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String[] readPattern(String file) {
-        File txtFile = new File(file);
-
         String[] stringArr = {"", ""};
-        try (InputStream inputStream = EmailServiceImpl.class.getClassLoader().getResourceAsStream(file)) {
-            Scanner scanner = new Scanner(inputStream);
+        try (InputStream inputStream = EmailServiceImpl.class.getClassLoader().getResourceAsStream(file);
+             Scanner scanner = inputStream != null ? new Scanner(inputStream) : new Scanner(EmailType.DEFAULT_1.getFile())) {
             stringArr[0] = scanner.nextLine();
             while (scanner.hasNextLine()) {
                 stringArr[1] += scanner.nextLine() + "\n";
@@ -51,7 +50,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendEmail(String toAddress, EmailType type, String... insertText) {
+    public void sendEmail(String toAddress, EmailType type, String... insertText) throws ServiceException {
         CommonServiceImpl commonService = CommonServiceImpl.getInstance();
         Properties prop = commonService.readProperties(GMAIL_PROPERTIES);
         Session session = Session.getDefaultInstance(prop,
@@ -78,7 +77,7 @@ public class EmailServiceImpl implements EmailService {
             message.setText(mainText);
             Transport.send(message);
         } catch (MessagingException e) {
-            logger.log(Level.WARN, "Message don't send to EMAIL: {}", e.getMessage());
+            throw new ServiceException(e);
         }
     }
 }

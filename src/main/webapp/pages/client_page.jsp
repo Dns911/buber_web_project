@@ -13,25 +13,17 @@
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-Страница клиента ${sessionScope.user_login} !
-<br/>
-
-
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="logout"/>
-    <input type="submit" name="button_logout" value="Выйти из системы"/>
-    <br/>
-    ${filter_attr}
-    <br/>
-    ${pageContext.session.id}
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <div class="bold_blue_text">
+        Страница клиента ${sessionScope.user_login} !
+    </div>
+    <input type="hidden" name="command" value="order_info"/>
+    <input class="btn_dark_blue" type="submit" name="button_main" value="Текущий заказ"/>
+    <div class="bold_red_text">${requestScope.current_order_msg}</div>
 </form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="goto_main"/>
-    <input type="submit" name="button_main" value="Вернуться на главную"/>
-</form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="user_info"/>
-    <input type="submit" name="button_inf" value="Информация о пользователе"/>
+    <input class="btn_dark_blue" type="submit" name="button_inf" value="Информация о пользователе"/>
 </form>
 <table class="table">
     <tr>
@@ -75,10 +67,22 @@
         </td>
     </tr>
 </table>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="order_info"/>
-    <input type="submit" name="button_main" value="Текущий заказ"/>
-    <div>${requestScope.current_order_msg}</div>
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="goto_main"/>
+    <input class="btn_red" type="submit" name="button_main" value="Вернуться на главную"/>
 </form>
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="change_page"/>
+    <input class="btn_red" type="submit" name="button_main" value="Смена пароля"/>
+</form>
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="logout"/>
+    <input class="btn_red" type="submit" name="button_logout" value="Выйти из системы"/>
+</form>
+<footer style="color: #f8f8f8;font-size: 15px; position: absolute; bottom: 5px" >
+    <h6>
+        Minsk, 2023
+    </h6>
+</footer>
 </body>
 </html>

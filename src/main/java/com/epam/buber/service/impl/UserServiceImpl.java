@@ -1,12 +1,14 @@
 package com.epam.buber.service.impl;
 
+import com.epam.buber.controller.info.AttrValue;
 import com.epam.buber.controller.info.RequestParameterName;
 import com.epam.buber.dao.impl.UserDaoImpl;
+import com.epam.buber.entity.Client;
+import com.epam.buber.entity.Driver;
 import com.epam.buber.entity.User;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 import com.epam.buber.exception.DaoException;
 import com.epam.buber.exception.ServiceException;
-import com.epam.buber.service.CommonService;
 import com.epam.buber.service.UserService;
 import com.epam.buber.validator.MapValidator;
 import com.epam.buber.validator.StringValidator;
@@ -18,12 +20,12 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserServiceImpl implements UserService {
-    private static Logger logger = LogManager.getLogger();
     private static UserServiceImpl instance = new UserServiceImpl();
-    private static final int LENGTH = 10;
-    public static final String NEW_PASS_ERROR = "Пользователя не зарегистрирован!";
+    private static final int LENGTH = 8;
+    public static final String NEW_PASS_ERROR = "Пользователь не зарегистрирован!";
 
     private UserServiceImpl() {
     }
@@ -35,37 +37,27 @@ public class UserServiceImpl implements UserService {
         return instance;
     }
 
-
-    @Override
     public boolean authenticate(String login, String password, UserRole role) throws ServiceException {
         if (!(StringValidator.isEmail(login) || StringValidator.isPhoneNum(login)) || !StringValidator.isPassword(password)) {
-            // TODO: 18-Jan-23  add logger (unsuccessful login, date, time)
-            logger.log(Level.INFO, "Validation not completed");
             return false;
         }
-
-        String passwordHex = DigestUtils.md5Hex(password); //crypte password
+        String passwordHex = DigestUtils.md5Hex(password); //crypt password
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         boolean match = false;
         try {
-            logger.log(Level.INFO, "service1 role: " + role);
             match = userDao.authenticate(login, passwordHex, role);
-            logger.log(Level.INFO, "service2 role: " + role);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return match;
     }
 
-
-    public boolean addUser(HashMap<String, Object> map) throws ServiceException {
-        if (!MapValidator.userFormValid(map)) {
-            logger.log(Level.INFO, "Registration not completed, check parameters");
+    public boolean insertUser(Map<String, String> map) throws ServiceException {
+        if (!MapValidator.userFormValidate(map)) {
             return false;
         }
         UserDaoImpl userDao = UserDaoImpl.getInstance();
-        logger.log(Level.INFO, "dao work");
-        String passwordHex = DigestUtils.md5Hex(map.get(RequestParameterName.PASSWORD).toString());
+        String passwordHex = DigestUtils.md5Hex(map.get(RequestParameterName.PASSWORD));
         map.put(RequestParameterName.PASSWORD, passwordHex);
         boolean match = false;
         try {
@@ -73,25 +65,25 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
-
         return match;
     }
 
-    @Override
-    public User getUserFromBD(String login, UserRole role) throws ServiceException {
+    public User findUser(String login, UserRole role) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
-        User user;
+        User user = role.equals(UserRole.DRIVER) ? new Driver() : new Client();
+        user.setEmail(login);
+        user.setRole(role);
         try {
-            user = userDao.findByEmailRole(login, role);
+            user = userDao.find(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return user;
     }
 
-    public List<User> getUserListByRole(UserRole role) throws ServiceException {
+    public List<User> findAllUsersByRole(UserRole role) throws ServiceException {
         UserDaoImpl userDao = UserDaoImpl.getInstance();
-        List<User> userList = new ArrayList<>();
+        List<User> userList;
         try {
             userList = userDao.findAllByRole(role);
         } catch (DaoException e) {
@@ -100,18 +92,34 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
-    public String getNewPassword(String login, UserRole role) throws ServiceException {
+    public String restorePassword(String login, UserRole role) throws ServiceException {
         CommonServiceImpl commonService = CommonServiceImpl.getInstance();
         String newPass = commonService.generateRandomPassword(LENGTH);
         String passwordHex = DigestUtils.md5Hex(newPass);
         UserDaoImpl userDao = UserDaoImpl.getInstance();
         String result;
         try {
-            result = userDao.changePassword(login, passwordHex, role) ? newPass : NEW_PASS_ERROR;
-
+            result = userDao.changePassword(login, passwordHex, role) ? newPass : AttrValue.NEW_PASS_ERROR;
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
         return result;
+    }
+
+    public boolean setNewPassword(String login, UserRole role, String newPass) throws ServiceException {
+        boolean match;
+        if (StringValidator.isPassword(newPass)) {
+            try {
+                String passwordHex = DigestUtils.md5Hex(newPass);
+                UserDaoImpl userDao = UserDaoImpl.getInstance();
+                userDao.changePassword(login, passwordHex, role);
+                match = true;
+            } catch (DaoException e) {
+                throw new ServiceException(e);
+            }
+        } else {
+            match = false;
+        }
+        return match;
     }
 }

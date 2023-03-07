@@ -18,30 +18,24 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/controller", "*.do"})
 public class Controller extends HttpServlet {
-    private static Logger logger = LogManager.getLogger();
 
     @Override
     public void init() {
         ConnectionPool.getInstance();
-        logger.log(Level.INFO, "+++++++++ servlet Init:" + this.getServletInfo());
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        logger.log(Level.INFO, "do Get");
         process(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        logger.log(Level.INFO, "do Post");
         process(req, resp);
     }
 
     private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.log(Level.INFO, "////////1");
         resp.setContentType("text/html");
-        logger.log(Level.INFO, "////////2");
         String commandStr = req.getParameter(RequestParameterName.COMMAND);
         Command command = CommandType.define(commandStr.toUpperCase());
         try {
@@ -55,16 +49,11 @@ public class Controller extends HttpServlet {
                     break;
                 default: {
                     resp.sendRedirect(router.getPage());
-                    logger.log(Level.ERROR, "-------$$$$$-------Router error, default \"Redirect\"!");
                     break;
                 }
             }
-
         } catch (CommandException e) {
-            throw new ServletException(e); // 1
-            //resp.sendError(500); // 2
-//           req.setAttribute("error_msg", e.getCause()); //3
-//           req.getRequestDispatcher(PagePath.ERROR_500).forward(req, resp); //3
+            throw new ServletException(e);
         }
     }
 
@@ -72,6 +61,5 @@ public class Controller extends HttpServlet {
     public void destroy() {
         ConnectionPool.getInstance().deregisterDriver();
         ConnectionPool.getInstance().destroyPool();
-        logger.log(Level.INFO, "+++++++++ servlet destroyed:" + this.getServletName());
     }
 }

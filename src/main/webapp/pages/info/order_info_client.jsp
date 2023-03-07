@@ -13,12 +13,16 @@
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<header>
+    <h1>
+        Страница заказа
+    </h1>
+</header>
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="order_finish">
     <input type="hidden" name="id" value="${requestScope.id}">
     <input type="hidden" name="driver_id" value="${requestScope.driver_id}">
-<table>
+<table class="table">
     <tr>
         <th>
             Номер заказа
@@ -78,12 +82,11 @@
         </td>
     </tr>
 </table>
-<input type="submit" name="but_fin" value="Завершить заказ">
+<input class="btn_dark_blue" type="submit" name="but_fin" value="Завершить заказ">
 </form>
-
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="goto_main"/>
-    <input type="submit" name="button_main" value="Вернуться на главную"/>
+    <input class="btn_red" type="submit" name="button_main" value="Вернуться на главную"/>
 </form>
 </body>
 </html>

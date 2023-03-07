@@ -5,7 +5,7 @@ import com.epam.buber.controller.info.SQLColumnName;
 import com.epam.buber.dao.CarDao;
 import com.epam.buber.entity.AbstractEntity;
 import com.epam.buber.entity.Car;
-import com.epam.buber.entity.parameter.CarClass;
+import com.epam.buber.entity.types.CarClass;
 import com.epam.buber.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +19,7 @@ import java.time.Year;
 import java.util.List;
 
 public class CarDaoImpl implements CarDao {
-    private static Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger();
     private static final String CAR_NOT_FOUND = "*";
     private static final String ADD_CAR = "INSERT INTO cars () VALUES (?, ?, ?, ?, ?, ?)";
     private static final String FIND_CAR_BY_ID = "SELECT * FROM cars WHERE id = ?";
@@ -35,12 +35,11 @@ public class CarDaoImpl implements CarDao {
         return carDaoImplInstance;
     }
 
-    public Car getCar(String carId) throws DaoException {
-        Car car = new Car();
+    @Override
+    public Car find(Car car) throws DaoException {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_CAR_BY_ID)) {
-//            SELECT * FROM cars WHERE id = ?
-            preparedStatement.setString(1, carId);
+            preparedStatement.setString(1, car.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     car.setIdCar(resultSet.getString(SQLColumnName.ID));
@@ -49,7 +48,6 @@ public class CarDaoImpl implements CarDao {
                     car.setYearIssue(Year.of(resultSet.getInt(SQLColumnName.YEAR_ISSUE)));
                     car.setColor(resultSet.getString(SQLColumnName.COLOR));
                     car.setOwner(resultSet.getString(SQLColumnName.OWNER));
-                    resultSet.close();
                 } else {
                     car.setIdCar(CAR_NOT_FOUND);
                 }
@@ -61,10 +59,8 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public boolean insert(AbstractEntity abstractEntity) throws DaoException {
+    public boolean insert(Car car) throws DaoException {
         boolean match = false;
-        Car car = (Car) abstractEntity;
-//        INSERT INTO cars () VALUES (?, ?, ?, ?, ?, ?)
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(ADD_CAR)) {
             preparedStatement.setString(1, car.getId());
@@ -74,11 +70,10 @@ public class CarDaoImpl implements CarDao {
             preparedStatement.setString(5, car.getColor());
             preparedStatement.setString(6, car.getOwner());
             int countRows = preparedStatement.executeUpdate();
-
             if (countRows == 1) {
                 match = true;
             } else {
-                logger.log(Level.INFO, "Add car. Count changed rows = {}", countRows);
+                logger.log(Level.WARN, "Add car. Count changed rows = {}", countRows);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -86,19 +81,13 @@ public class CarDaoImpl implements CarDao {
         return match;
     }
 
-
     @Override
-    public boolean delete(AbstractEntity abstractEntity) throws DaoException {
+    public boolean delete(Car car) throws DaoException {
         return false;
     }
 
     @Override
-    public List findAll(AbstractEntity abstractEntity) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public AbstractEntity update(AbstractEntity abstractEntity) throws DaoException {
-        return null;
+    public boolean update(Car car) throws DaoException {
+        return false;
     }
 }

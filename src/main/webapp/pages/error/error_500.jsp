@@ -8,20 +8,21 @@
 <%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>500</title>
+    <title>Error 500</title>
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
-<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 <body>
+Error 500
 Request from: ${pageContext.errorData.requestURI} is failed<br/>
 Servlet name: ${pageContext.errorData.servletName}<br/>
 Status code: ${pageContext.errorData.statusCode}<br/>
 Exception: ${pageContext.exception}<br/>
-Exception: ${pageContext.exception.message}<br/>
+Exception massage: ${pageContext.exception.message}<br/>
 <br/><br/>
 Message from exception: ${error_msg}
 <br/><br/>
 <form class="form_center" action="${pageContext.request.contextPath}/index.jsp">
-    <input class="btn_dark_blue" type="submit" name="but1" value="Back home"/>
+    <input class="btn_dark_blue" type="submit" name="but1" value="Вернуться на главную"/>
 </form>
 </body>
 </html>

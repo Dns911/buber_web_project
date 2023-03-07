@@ -1,6 +1,6 @@
 package com.epam.buber.exception;
 
-public class CommandException extends Exception{
+public class CommandException extends Exception {
     public CommandException() {
     }
 

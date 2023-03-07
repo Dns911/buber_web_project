@@ -34,6 +34,14 @@ body {
     font-size: 20px;
 }
 
+.form_info {
+    max-width: 350px;
+    padding: 00px;
+    margin: 10px;
+    color: #000000;
+    font-size: 20px;
+}
+
 .input {
     display: inline;
     width: 100%;
@@ -53,12 +61,23 @@ body {
     padding: 8px 10px;
     margin-bottom: 10px;
     background: rgba(148, 56, 255, 0.85);
-
     border: 4px solid #ccc;
-
     font-family: inherit;
     font-size: 20px;
     font-weight: bold;
+    color: #efefef;
+}
+
+.select_main {
+    display: inline;
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    margin: 10px 0;
+    background: rgba(148, 56, 255, 0.85);
+    border: 4px solid #ffa600;
+    font-family: inherit;
+    font-size: 15px;
     color: #efefef;
 }
 
@@ -79,9 +98,22 @@ body {
     color: red;
 }
 
+.bold_blue_text{
+    font-family: inherit;
+    color: #2603a1;
+    font-weight: bold;
+}
+
+.bold_red_text{
+    font-family: inherit;
+    color: red;
+    font-weight: bold;
+}
+
 .btn_dark_blue {
     display: block;
     width: 100%;
+    max-width: 350px;
     padding: 8px 10px;
 
     border: 0;
@@ -97,6 +129,7 @@ body {
 .btn_red {
     display: block;
     width: 100%;
+    max-width: 350px;
     padding: 8px 10px;
 
     border: 0;
@@ -123,7 +156,7 @@ body {
 .geocoder {
     position: relative;
     z-index: 2;
-    width: 340px;
+    width: 330px;
     left: 0px;
     margin-left: 10px;
     top: 15px;
@@ -131,9 +164,10 @@ body {
 .geocoder1 {
     position: relative;
     z-index: 1;
-    width: 340px;
+    width: 330px;
     left: 0px;
     margin-left: 10px;
+    margin-bottom: 10px;
     top: 15px;
 }
 /*.form_main{*/
@@ -167,7 +201,6 @@ body {
 .form_radio_group {
     display: inline-block;
     overflow: hidden;
-    margin-bottom: 10px;
 }
 .form_radio_group-item {
     display: inline-block;

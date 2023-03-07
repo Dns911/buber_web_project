@@ -6,11 +6,11 @@ import com.epam.buber.controller.info.AttrValue;
 import com.epam.buber.controller.info.PagePath;
 import com.epam.buber.controller.info.RequestParameterName;
 import com.epam.buber.controller.info.SessionAttrName;
-import com.epam.buber.entity.DriverShift;
+import com.epam.buber.entity.ShiftDriver;
 import com.epam.buber.entity.ListDriverShift;
 import com.epam.buber.exception.CommandException;
 import com.epam.buber.exception.ServiceException;
-import com.epam.buber.service.impl.DriverShiftServiceImpl;
+import com.epam.buber.service.impl.ShiftServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -18,14 +18,14 @@ public class DriverShiftEndCommand implements Command {
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
         HttpSession session = request.getSession();
-        DriverShiftServiceImpl shiftService = DriverShiftServiceImpl.getInstance();
+        ShiftServiceImpl shiftService = ShiftServiceImpl.getInstance();
         ListDriverShift listDriverShifts = ListDriverShift.getInstance();
         String page = PagePath.DRIVER_PAGE;
         Router router;
         int driverId = (int) session.getAttribute(SessionAttrName.USER_ID);
         try {
             if (session.getAttribute(SessionAttrName.DRIVER_WORK_STATUS).equals(AttrValue.STATUS_MSG_WAIT_ORDER)) {
-                DriverShift shift = listDriverShifts.getShiftQueueByDriverId(driverId);
+                ShiftDriver shift = listDriverShifts.getShiftQueueByDriverId(driverId);
                 if (listDriverShifts.removeQueueShift(driverId)) {
                     shiftService.endShift(shift);
                     session.setAttribute(SessionAttrName.DRIVER_WORK_STATUS, AttrValue.STATUS_MSG_REST);

@@ -1,6 +1,6 @@
 package com.epam.buber.entity;
 
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 
 import java.sql.Date;
 import java.util.Objects;

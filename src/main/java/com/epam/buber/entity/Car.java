@@ -1,20 +1,20 @@
 package com.epam.buber.entity;
 
-import com.epam.buber.entity.parameter.CarClass;
+import com.epam.buber.entity.types.CarClass;
 
 import java.time.Year;
 import java.util.Objects;
 
-public class Car extends AbstractEntity{
+public class Car extends AbstractEntity {
     private String idCar;
     private String model;
     private CarClass carClass;
     private Year yearIssue;
-
     private String color;
     private String owner;
 
     public Car() {
+        super();
     }
 
     public String getId() {

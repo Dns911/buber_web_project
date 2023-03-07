@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>Admin page</title>
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/controller" method="post">
@@ -19,10 +19,6 @@
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="logout"/>
     <input type="submit" name="button_logout" value="Выйти из системы"/>
-    <br/>
-    ${filter_attr}
-    <br/>
-    ${pageContext.session.id}
 </form>
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="goto_main"/>

@@ -17,7 +17,8 @@ public enum CommandType {
     ORDER_INFO(new OrderInfoCommand()),
     USER_PAGE(new UserPageCommand()),
     USER_INFO(new UserInfoCommand()),
-    RESTORE_PASS(new RestorePassCommand()),
+    CHANGE_PASS(new ChangePassCommand()),
+    CHANGE_PAGE(new ChangePageCommand()),
     RESTORE_PAGE(new RestorePageCommand()),
     DRIVER_SHIFT_START(new DriverShiftStartCommand()),
     DRIVER_SHIFT_END(new DriverShiftEndCommand()),
@@ -35,7 +36,7 @@ public enum CommandType {
         try {
             currentComType = CommandType.valueOf(strCommand);
         } catch (IllegalArgumentException e) {
-            logger.log(Level.DEBUG, "Command name exception: {}", e.getMessage());
+            logger.log(Level.ERROR, "Command name exception: {}", e.getMessage());
             return currentComType.command;
         }
         return currentComType.command;

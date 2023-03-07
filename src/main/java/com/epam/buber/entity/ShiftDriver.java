@@ -4,7 +4,7 @@ import java.sql.Time;
 import java.sql.Date;
 import java.util.Objects;
 
-public class DriverShift extends AbstractEntity {
+public class ShiftDriver extends AbstractEntity {
     private long idShift;
     private Driver driver;
     private Car car;
@@ -15,7 +15,8 @@ public class DriverShift extends AbstractEntity {
     private double length; //000.0 km
     private Order currentOrder;
 
-    public DriverShift() {
+    public ShiftDriver() {
+        super();
     }
 
     public long getIdShift() {
@@ -101,7 +102,7 @@ public class DriverShift extends AbstractEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DriverShift that)) return false;
+        if (!(o instanceof ShiftDriver that)) return false;
         return getIdShift() == that.getIdShift() && Double.compare(that.getIncome(), getIncome()) == 0 &&
                 Double.compare(that.getLength(), getLength()) == 0 && Objects.equals(getDriver(), that.getDriver()) &&
                 Objects.equals(getCar(), that.getCar()) && Objects.equals(getDate(), that.getDate()) &&
@@ -118,7 +119,7 @@ public class DriverShift extends AbstractEntity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("DriverShift{");
+        final StringBuilder sb = new StringBuilder("ShiftDriver{");
         sb.append(" idShiftDriver=").append(idShift);
         sb.append("\ndriver=").append(driver);
         sb.append("\ncar=").append(car);

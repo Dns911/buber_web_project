@@ -75,8 +75,8 @@ map.on('load', () => {
 
         document.getElementById('start_street').value = event.result.text;
         document.getElementById('start_addr').value = event.result.address;
-        document.getElementById('start_lng').value = start[0];
-        document.getElementById('start_lat').value = start[1];
+        // document.getElementById('start_lng').value = start[0];
+        // document.getElementById('start_lat').value = start[1];
 
         window.glb_start=start;
         if (window.glb_end.length == 0) {
@@ -113,8 +113,8 @@ map.on('load', () => {
 
         document.getElementById('finish_street').value = event.result.text;
         document.getElementById('finish_addr').value = event.result.address;
-        document.getElementById('finish_lng').value = end[0];
-        document.getElementById('finish_lat').value = end[1];
+        // document.getElementById('finish_lng').value = end[0];
+        // document.getElementById('finish_lat').value = end[1];
 
         window.glb_end = end;
         if (window.glb_start.length == 0) {
@@ -134,8 +134,14 @@ async function getRoute(start, end) {
     const json = await query.json();
     const data = json.routes[0];
     const route = data.geometry.coordinates;
-    document.getElementById('distance').value = (data.distance / 1000).toFixed(2) ; //getting dist (m) on page
-    document.getElementById('duration').value = Math.ceil(data.duration / 60); //getting duration (sec) on page
+    const dist = (data.distance / 1000).toFixed(2);
+    const duration = Math.ceil(data.duration / 60);;
+
+    document.getElementById('distance').value = dist ; //getting dist (m) on page
+    document.getElementById('duration').value = duration;
+
+    document.getElementById('distance_txt').innerHTML = dist.toString() + " км"; //getting dist (m) on page
+    document.getElementById('duration_txt').innerHTML = duration.toString() + " мин"; //getting duration (sec) on page
     const geojson = {
         type: 'Feature',
         properties: {},

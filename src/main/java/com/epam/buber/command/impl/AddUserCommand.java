@@ -5,7 +5,7 @@ import com.epam.buber.controller.info.AttrValue;
 import com.epam.buber.controller.info.PagePath;
 import com.epam.buber.controller.info.RequestParameterName;
 import com.epam.buber.controller.Router;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 import com.epam.buber.exception.CommandException;
 import com.epam.buber.exception.ServiceException;
 import com.epam.buber.service.CommonService;
@@ -15,23 +15,18 @@ import com.epam.buber.service.impl.EmailServiceImpl;
 import com.epam.buber.service.UserService;
 import com.epam.buber.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class AddUserCommand implements Command {
-    private static Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest request) throws CommandException {
-        logger.log(Level.INFO, "start exec req name: " + request.toString());
         UserService userService = UserServiceImpl.getInstance();
         EmailService emailService = EmailServiceImpl.getInstance();
         CommonService commonService = CommonServiceImpl.getInstance();
         UserRole role = UserRole.define(request.getParameter(RequestParameterName.USER_ROLE));
-        HashMap<String, Object> map = commonService.createMapFromRequest(request,
+        Map<String, String> map = commonService.createMapFromRequest(request,
                 RequestParameterName.USER_ROLE,
                 RequestParameterName.EMAIL,
                 RequestParameterName.PASSWORD,
@@ -46,11 +41,10 @@ public class AddUserCommand implements Command {
         String page;
         Router router;
         try {
-            if (userService.addUser(map)) {
+            if (userService.insertUser(map)) {
                 page = PagePath.REGISTRATION_SUCCESS;
                 EmailService.EmailType type = role.equals(UserRole.DRIVER) ? EmailService.EmailType.WELCOME_DRIVER_1 : EmailService.EmailType.WELCOME_CLIENT_1;
-                emailService.sendEmail(map.get(RequestParameterName.EMAIL).toString(), type, map.get(RequestParameterName.USER_NAME).toString());
-                logger.log(Level.INFO, "Message has sent to email: {}", map.get(RequestParameterName.EMAIL));
+                emailService.sendEmail(map.get(RequestParameterName.EMAIL), type, map.get(RequestParameterName.USER_NAME));
                 router = new Router(page, Router.RouterType.REDIRECT);
             } else {
                 request.setAttribute(RequestParameterName.REGISTR_MSG, AttrValue.REGISTR_MSG);

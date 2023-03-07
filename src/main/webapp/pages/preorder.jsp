@@ -10,14 +10,15 @@
 <html>
 <head>
     <title>Оформление заказа</title>
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-<div>
-    Order ${pageContext.session.id}
-</div>
-
-
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<header>
+    <h1 class="">
+        Оформление заказа
+    </h1>
+</header>
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="order_start">
     <div>
         Откуда: ${param.start_street} ${param.start_addr}
@@ -48,14 +49,16 @@
     <div>
         Цена: ${requestScope.cost}
         <input type="hidden" name="cost" value="${requestScope.cost}"> руб.
-        <%--    rub --%>
     </div>
     <div>
         Количество доступных машин
         выбранного класса: ${requestScope.count_free_cars}
     </div>
-    <input type="submit" name="user_button" value="Подтвердить заказ">
+    <input class="btn_dark_blue" type="submit" name="user_button" value="Подтвердить заказ">
 </form>
-
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="goto_main"/>
+    <input class="btn_red" type="submit" name="button_main" value="Вернуться на главную"/>
+</form>
 </body>
 </html>

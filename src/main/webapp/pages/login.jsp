@@ -40,8 +40,8 @@
         <div>
             <input class="input_login" type="password" name="password" value="" placeholder="Пароль">
         </div>
-        <div>
-            <span ali>${login_msg}</span>
+        <div class="bold_red_text">
+            <span>${login_msg}</span>
         </div>
 <%--        <br/>--%>
 <%--        ${filter_attr}--%>
@@ -69,28 +69,20 @@
     <form class="form_login" action="controller" method="post">
         <input type="hidden" name="command" value="registration"/>
         <input type="hidden" name="user_role" value="client"/>
-        <%--    <input class="button" type="submit" name="but2" value="Стать пользователем"/>--%>
-        <button class="btn_red" type="submit">Стать пользователем</button>
+        <input class="btn_red" type="submit" name="but2" value="Стать пользователем"/>
+<%--        <button class="btn_red" type="submit">Стать пользователем</button>--%>
     </form>
     <form class="form_login" action="controller" method="post">
         <input type="hidden" name="command" value="registration"/>
         <input type="hidden" name="user_role" value="driver"/>
-        <%--        <input class="btn1" type="submit" name="but2" value="Стать водителем"/>--%>
-        <button class="btn_red" type="submit">Стать водителем</button>
+        <input class="btn_red" type="submit" name="but3" value="Стать водителем"/>
+<%--        <button class="btn_red" type="submit">Стать водителем</button>--%>
     </form>
-
-    <span><%--     тег строки, строчный--%>
-         Lorem ipsum <a target="_blank" href="http://google.com">dolor</a> sit amet, consectetur adipisicing elit.
-    </span>
-    <br/>
-
-    
-    <footer style="color: #f8f8f8;font-size: 10px; position: absolute; bottom: 5px" >
+    <footer style="color: #f8f8f8;font-size: 15px; position: absolute; bottom: 5px" >
         <h6>
             Minsk, 2023
         </h6>
     </footer>
-
 </body>
 
 </html>

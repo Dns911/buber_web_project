@@ -9,21 +9,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>Restore password</title>
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-
-<form class="form_login" action="controller" method="post">
-    <input type="hidden" name="command" value="restore_pass"/>
+<form class="form_login" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="change_pass"/>
+    <input type="hidden" name="password" value=""/>
     <input class="input_registr" type="text" name="login" value="" placeholder="Ваш email"><span class="red_text"> ${requestScope.login_err}</span>
     <div>
         <input type="radio" name="user_role" checked value="client"/>Пассажир
         <input type="radio" name="user_role" value="driver"/>Водитель
     </div>
-    <%--    <input class="button" type="submit" name="but2" value="Стать пользователем"/>--%>
     <button class="btn_dark_blue" type="submit">Сгенерировать новый пароль</button>
 </form>
-
-
 </body>
 </html>

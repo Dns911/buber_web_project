@@ -7,8 +7,8 @@ import com.epam.buber.dao.UserDao;
 import com.epam.buber.entity.Client;
 import com.epam.buber.entity.Driver;
 import com.epam.buber.entity.User;
-import com.epam.buber.entity.parameter.DriverStatus;
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.DriverStatus;
+import com.epam.buber.entity.types.UserRole;
 import com.epam.buber.exception.DaoException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -19,17 +19,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = LogManager.getLogger();
+    private static final String INCORRECT_STRING = "**";
     private static final String CHECK_PASS_LOG_CLIENT = "SELECT password FROM clients WHERE email = ?";
     private static final String CHECK_PASS_LOG_DRIVER = "SELECT password FROM drivers WHERE email = ?";
     private static final String CHECK_PHONE_CLIENT = "SELECT * FROM clients WHERE phone = ?";
     private static final String CHECK_PHONE_DRIVER = "SELECT * FROM drivers WHERE phone = ?";
     private static final String CHECK_EMAIL_CLIENT = "SELECT * FROM buber_db.clients WHERE email = ?";
     private static final String CHECK_EMAIL_DRIVER = "SELECT * FROM buber_db.drivers WHERE email = ?";
-    private static final String GET_ALL_DRIVERS = "SELECT login FROM drivers WHERE role = ? ";
-    private static final String GET_ALL_CLIENTS = "SELECT login FROM clients WHERE role = ? ";
+    private static final String GET_ALL_DRIVERS = "SELECT email FROM drivers WHERE role = ? ";
+    private static final String GET_ALL_CLIENTS = "SELECT email FROM clients WHERE role = ? ";
     private static final String ADD_CLIENT = "INSERT INTO clients (email, password, phone, name, last_name, date_registry) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String ADD_DRIVER = "INSERT INTO drivers (email, password, phone, name, last_name, date_registry, driver_lic_number, driver_lic_valid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_CLIENT = "UPDATE clients SET email = ?, phone = ?, name = ?, last_name = ? WHERE id = ?";
@@ -52,59 +54,13 @@ public class UserDaoImpl implements UserDao {
         return userDaoImplInstance;
     }
 
-    public boolean insert(User user) {
-        return false;
-    }
-
-    public boolean delete(User user) {
-        return false;
-    }
-
-    public List<User> findAll() {
-        return null;
-    }
-
-    public boolean update(User user) throws DaoException {
-        String queryType = user.getRole().equals(UserRole.DRIVER) ? UPDATE_DRIVER : UPDATE_CLIENT;
-        boolean match = false;
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
-//            "UPDATE clients SET email = ?1, phone = ?2, name = ?3, last_name = ?4 WHERE id = ?5"
-//            "UPDATE drivers SET email = ?1, phone = ?2, name = ?3, last_name = ?4, driver_lic_number = ?5, driver_lic_valid = ?6 status = ?7 WHERE id = ?8"
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPhoneNum());
-            preparedStatement.setString(3, user.getName());
-            preparedStatement.setString(4, user.getLastName());
-            if (user.getRole().equals(UserRole.CLIENT)) {
-                preparedStatement.setInt(5, (user).getId());
-            } else {
-                preparedStatement.setString(5, ((Driver) user).getLicenceNum());
-                preparedStatement.setDate(6, ((Driver) user).getLicenceValidDate());
-                preparedStatement.setString(7, ((Driver) user).getStatus().getStringStatus());
-                preparedStatement.setInt(8, (user).getId());
-            }
-            int countRows = preparedStatement.executeUpdate();
-            if (countRows == 1) {
-                match = true;
-            } else {
-                logger.log(Level.INFO, "Count changed rows = {}", countRows);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return match;
-    }
-
-    @Override
     public boolean authenticate(String login, String passwordHex, UserRole role) throws DaoException {
         boolean match = false;
         String loginType;
         if (role.equals(UserRole.CLIENT)) {
             loginType = CHECK_PASS_LOG_CLIENT;
-            logger.log(Level.INFO, "table client");
         } else {
             loginType = CHECK_PASS_LOG_DRIVER;
-            logger.log(Level.INFO, "table client");
         }
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(loginType)) {
@@ -112,7 +68,7 @@ public class UserDaoImpl implements UserDao {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 String passFromDb;
                 if (resultSet.next()) {
-                    passFromDb = resultSet.getString("password");
+                    passFromDb = resultSet.getString(SQLColumnName.PASS);
                     match = passwordHex.equals(passFromDb);
                 }
             }
@@ -122,9 +78,8 @@ public class UserDaoImpl implements UserDao {
         return match;
     }
 
-    @Override
-    public boolean registration(HashMap<String, Object> map) throws DaoException {
-        UserRole role = UserRole.define(map.get(RequestParameterName.USER_ROLE).toString());
+    public boolean registration(Map<String, String> map) throws DaoException {
+        UserRole role = UserRole.define(map.get(RequestParameterName.USER_ROLE));
         String queryType = ADD_CLIENT;
         if (role.equals(UserRole.DRIVER)) {
             queryType = ADD_DRIVER;
@@ -132,36 +87,36 @@ public class UserDaoImpl implements UserDao {
         boolean match = false;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
-            boolean checkEmail = checkUserEmailPhone(connection, role, SQLColumnName.EMAIL, map.get(RequestParameterName.EMAIL).toString());
+            boolean checkEmail = checkUserEmailPhone(connection, role, SQLColumnName.EMAIL, map.get(RequestParameterName.EMAIL));
             if (!checkEmail) {
-                preparedStatement.setString(1, map.get(RequestParameterName.EMAIL).toString());
+                preparedStatement.setString(1, map.get(RequestParameterName.EMAIL));
             } else {
-                map.replace(RequestParameterName.EMAIL, "**");
+                map.replace(RequestParameterName.EMAIL, INCORRECT_STRING);
                 return false;
             }
-            preparedStatement.setString(2, map.get(RequestParameterName.PASSWORD).toString());
-            boolean checkPhone = checkUserEmailPhone(connection, role, SQLColumnName.PHONE, map.get(RequestParameterName.PHONE_NUM).toString());
+            preparedStatement.setString(2, map.get(RequestParameterName.PASSWORD));
+            boolean checkPhone = checkUserEmailPhone(connection, role, SQLColumnName.PHONE, map.get(RequestParameterName.PHONE_NUM));
             if (!checkPhone) {
-                preparedStatement.setString(3, map.get(RequestParameterName.PHONE_NUM).toString());
+                preparedStatement.setString(3, map.get(RequestParameterName.PHONE_NUM));
             } else {
-                map.replace(RequestParameterName.PHONE_NUM, "**");
+                map.replace(RequestParameterName.PHONE_NUM, INCORRECT_STRING);
                 return false;
             }
-            preparedStatement.setString(3, map.get(RequestParameterName.PHONE_NUM).toString());
-            preparedStatement.setString(4, map.get(RequestParameterName.USER_NAME).toString());
-            preparedStatement.setString(5, map.get(RequestParameterName.USER_LASTNAME).toString());
+            preparedStatement.setString(3, map.get(RequestParameterName.PHONE_NUM));
+            preparedStatement.setString(4, map.get(RequestParameterName.USER_NAME));
+            preparedStatement.setString(5, map.get(RequestParameterName.USER_LASTNAME));
             long currentDate = System.currentTimeMillis();
-            Date date = new Date(currentDate);          //java.sql.Date
-            preparedStatement.setDate(6, date); //Todo set current date
+            Date date = new Date(currentDate);
+            preparedStatement.setDate(6, date);
             if (role.equals(UserRole.DRIVER)) {
-                preparedStatement.setString(7, map.get(RequestParameterName.DRIVER_LIC_NUMBER).toString());
-                preparedStatement.setString(8, map.get(RequestParameterName.DRIVER_LIC_VALID).toString());
+                preparedStatement.setString(7, map.get(RequestParameterName.DRIVER_LIC_NUMBER));
+                preparedStatement.setString(8, map.get(RequestParameterName.DRIVER_LIC_VALID));
             }
             int countRows = preparedStatement.executeUpdate();
             if (countRows == 1) {
                 match = true;
             } else {
-                logger.log(Level.INFO, "Count changed rows = {}", countRows);
+                logger.log(Level.WARN, "Count changed rows = {}", countRows);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
@@ -169,20 +124,96 @@ public class UserDaoImpl implements UserDao {
         return match;
     }
 
-    @Override
-    public User findByEmailRole(String email, UserRole role) throws DaoException {
+    public List<User> findAllByRole(UserRole role) throws DaoException {
+        String userType;
+        List<User> listUser = new ArrayList<>();
         User user;
-        String queryType;
         if (role.equals(UserRole.DRIVER)) {
+            userType = GET_ALL_DRIVERS;
             user = new Driver();
+        } else {
+            userType = GET_ALL_CLIENTS;
+            user = new Client();
+        }
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(userType)) {
+            preparedStatement.setString(1, role.toString());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    user.setEmail(resultSet.getString(SQLColumnName.EMAIL));
+                    listUser.add(find(user));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return listUser;
+    }
+
+    public boolean changePassword(String email, String passHex, UserRole role) throws DaoException {
+        boolean match = false;
+        String queryType = role.equals(UserRole.DRIVER) ? UPDATE_PASSWORD_DRIVER : UPDATE_PASSWORD_CLIENT;
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
+            preparedStatement.setString(1, passHex);
+            preparedStatement.setString(2, email);
+            int countRows = preparedStatement.executeUpdate();
+            if (countRows == 1) {
+                match = true;
+            } else {
+                logger.log(Level.WARN, "Update user password count changed rows = {}", countRows);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+        return match;
+    }
+
+    public void updateUserRate(User user) throws DaoException {
+        String queryType = user.getRole().equals(UserRole.DRIVER) ? UPDATE_RATE_DRIVER : UPDATE_RATE_CLIENT;
+        int id = user.getId();
+        double rate = user.getRate();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
+            preparedStatement.setDouble(1, rate);
+            preparedStatement.setInt(2, id);
+            int countRows = preparedStatement.executeUpdate();
+            if (countRows != 1) {
+                logger.log(Level.WARN, "Update user rate count changed rows = {}", countRows);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    public void updateUserIncome(User user, double income) throws DaoException {
+        String queryType = user.getRole().equals(UserRole.DRIVER) ? UPDATE_INCOME_DRIVER : UPDATE_INCOME_CLIENT;
+        int id = user.getId();
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
+            preparedStatement.setDouble(1, income);
+            preparedStatement.setInt(2, id);
+            int countRows = preparedStatement.executeUpdate();
+            if (countRows != 1) {
+                logger.log(Level.WARN, "Update user income count changed rows = {}", countRows);
+            }
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public User find(User user) throws DaoException {
+        String queryType;
+        UserRole role = user.getRole();
+        if (role.equals(UserRole.DRIVER)) {
             queryType = CHECK_EMAIL_DRIVER;
         } else {
-            user = new Client();
             queryType = CHECK_EMAIL_CLIENT;
         }
         try (Connection connection = ConnectionPool.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, user.getEmail());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     user.setId(resultSet.getInt(SQLColumnName.ID));
@@ -209,26 +240,44 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    public List<User> findAllByRole(UserRole role) throws DaoException {
-        String userType;
-        List<User> listUser = new ArrayList<>();
-        if (role.equals(UserRole.DRIVER.getStringRole())) {
-            userType = GET_ALL_DRIVERS;
-        } else {
-            userType = GET_ALL_CLIENTS;
-        }
+    @Override
+    public boolean insert(User user) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(User user) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public boolean update(User user) throws DaoException {
+        String queryType = user.getRole().equals(UserRole.DRIVER) ? UPDATE_DRIVER : UPDATE_CLIENT;
+        boolean match = false;
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(userType)) {
-            preparedStatement.setString(1, role.getStringRole());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    listUser.add(findByEmailRole(resultSet.getString(SQLColumnName.EMAIL), role));
-                }
+             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
+            preparedStatement.setString(1, user.getEmail());
+            preparedStatement.setString(2, user.getPhoneNum());
+            preparedStatement.setString(3, user.getName());
+            preparedStatement.setString(4, user.getLastName());
+            if (user.getRole().equals(UserRole.CLIENT)) {
+                preparedStatement.setInt(5, (user).getId());
+            } else {
+                preparedStatement.setString(5, ((Driver) user).getLicenceNum());
+                preparedStatement.setDate(6, ((Driver) user).getLicenceValidDate());
+                preparedStatement.setString(7, ((Driver) user).getStatus().toString());
+                preparedStatement.setInt(8, (user).getId());
+            }
+            int countRows = preparedStatement.executeUpdate();
+            if (countRows == 1) {
+                match = true;
+            } else {
+                logger.log(Level.WARN, "Update user count changed rows = {}", countRows);
             }
         } catch (SQLException e) {
             throw new DaoException(e);
         }
-        return listUser;
+        return match;
     }
 
     private boolean checkUserEmailPhone(Connection connection, UserRole role, String nameCol, String valueCol) throws DaoException {
@@ -236,18 +285,14 @@ public class UserDaoImpl implements UserDao {
         if (role.equals(UserRole.DRIVER)) {
             if (nameCol.equals(SQLColumnName.EMAIL)) {
                 queryType = CHECK_EMAIL_DRIVER;
-                // SELECT * FROM drivers WHERE email = ?
             } else {
                 queryType = CHECK_PHONE_DRIVER;
-                // SELECT * FROM drivers WHERE phone = ?
             }
         } else {
             if (nameCol.equals(SQLColumnName.EMAIL)) {
                 queryType = CHECK_EMAIL_CLIENT;
-                // SELECT * FROM clients WHERE email = ?
             } else {
                 queryType = CHECK_PHONE_CLIENT;
-                // SELECT * FROM clients WHERE phone = ?
             }
         }
         try (PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
@@ -262,69 +307,5 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(e);
         }
         return false;
-    }
-
-    public boolean changePassword(String email, String passHex, UserRole role) throws DaoException {
-        boolean match = false;
-        String queryType = role.equals(UserRole.DRIVER) ? UPDATE_PASSWORD_DRIVER : UPDATE_PASSWORD_CLIENT;
-        //UPDATE drivers SET password = ? WHERE email = ?
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
-            preparedStatement.setString(1, passHex);
-            preparedStatement.setString(2, email);
-            int countRows = preparedStatement.executeUpdate();
-            if (countRows == 1) {
-                match = true;
-            } else {
-                logger.log(Level.INFO, "Count changed rows = {}", countRows);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return match;
-    }
-
-    public boolean updateUserRate(User user) throws DaoException {
-        boolean match = false;
-        String queryType = user.getRole().equals(UserRole.DRIVER) ? UPDATE_RATE_DRIVER : UPDATE_RATE_CLIENT;
-        int id = user.getId();
-        double rate = user.getRate();
-        //UPDATE **** SET rate = ? WHERE id = ?
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
-            preparedStatement.setDouble(1, rate);
-            preparedStatement.setInt(2, id);
-            int countRows = preparedStatement.executeUpdate();
-            if (countRows == 1) {
-                match = true;
-            } else {
-                logger.log(Level.INFO, "Count changed rows = {}", countRows);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return match;
-    }
-
-    public boolean updateUserIncome(User user, double income) throws DaoException {
-        boolean match = false;
-        String queryType = user.getRole().equals(UserRole.DRIVER) ? UPDATE_INCOME_DRIVER : UPDATE_INCOME_CLIENT;
-        int id = user.getId();
-        //"UPDATE clients SET payment_sum = payment_sum + ? WHERE id = ?";
-        //"UPDATE drivers SET income_sum = income_sum + ? WHERE id = ?"
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(queryType)) {
-            preparedStatement.setDouble(1, income);
-            preparedStatement.setInt(2, id);
-            int countRows = preparedStatement.executeUpdate();
-            if (countRows == 1) {
-                match = true;
-            } else {
-                logger.log(Level.INFO, "Count changed rows = {}", countRows);
-            }
-        } catch (SQLException e) {
-            throw new DaoException(e);
-        }
-        return match;
     }
 }

@@ -9,13 +9,18 @@
 <html>
 <head>
     <title>ERROR 404</title>
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
 <body>
-404
-Request from: ${pageContext.errorData.requestURI} is failed<br/>
-Servlet name: ${pageContext.errorData.servletName}<br/>
-Status code: ${pageContext.errorData.statusCode}<br/>
-${pageContext.errorData.info}
-
+<div>
+    Error 404
+    Request from: ${pageContext.errorData.requestURI} is failed<br/>
+    Servlet name: ${pageContext.errorData.servletName}<br/>
+    Status code: ${pageContext.errorData.statusCode}<br/>
+    ${pageContext.errorData.info}
+</div>
+<form class="form_center" action="${pageContext.request.contextPath}/index.jsp">
+    <input class="btn_dark_blue" type="submit" name="but1" value="Вернуться на главную"/>
+</form>
 </body>
 </html>

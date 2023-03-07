@@ -22,23 +22,18 @@
     </style>
 </head>
 <body>
-
-<div>
+<div class="bold_blue_text">
     <span> Добро пожаловать, ${sessionScope.user_login}!</span>
 </div>
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="user_page">
-    <input type="submit" name="user_button" value="Страница пользователя/Вход">
+    <input class="btn_red" type="submit" name="user_button" value="Страница пользователя/Вход">
 </form>
 <div id='map'></div>
 <nav id="menu"></nav>
 <form action="${pageContext.request.contextPath}/controller" method="post">
     <div id="geocoder_from" name="from" class="geocoder"></div>
     <div id="geocoder_to" name="to" class="geocoder1"></div>
-    <br/>
-    <br/>
-    <input type="text" id="test">
-    <br/>
     <br/>
     <div>
         <div class="form_radio_group">
@@ -64,50 +59,35 @@
             </div>
     </div></div>
     <div>
-        <select name="pay_method">
+        <select class="select_main" name="pay_method">
             <option selected value=cash">Наличные</option>
             <option value="card">Оплата картой</option>
         </select>
     </div>
     <div>
-<%--        <input type="text"  rows="3" name="comment_for_driver" placeholder="Комментарий водителю..." maxlength="40">--%>
+        <textarea name="comment_for_driver" style="resize: none; width: 350px" rows="2" placeholder="Комментарий водителю..." maxlength="60"></textarea>
+    </div>
+    <div><input type="hidden" step="0.01" id="duration" name="duration"></div>
 
-        <textarea name="comment_for_driver" style="resize: none" rows="2" placeholder="Комментарий водителю..." maxlength="60"></textarea>
-
-    </div>
-    <div><input type="number" step="0.01" id="duration" name="duration"></div>
-    <div><input type="" step="0.01" id="distance" name="distance"></div>
-    start
+    <div><input type="hidden" step="0.01" id="distance" name="distance"></div>
     <div>
-        <input type="text" id="start_street" name="start_street">
+        <input type="hidden" id="start_street" name="start_street">
     </div>
     <div>
-        <input type="text" id="start_addr" name="start_addr">
+        <input type="hidden" id="start_addr" name="start_addr">
+    </div>
+    <div class="bold_red_text" id="duration_txt"><span> </span></div>
+    <div class="bold_red_text" id="distance_txt"><span> </span></div>
+    <div>
+        <input type="hidden" id="finish_street" name="finish_street">
     </div>
     <div>
-        <input type="text" id="start_lng" name="start_lng">
-    </div>
-    <div>
-        <input type="text" id="start_lat" name="start_lat">
-    </div>
-    finish
-    <div>
-        <input type="text" id="finish_street" name="finish_street">
-    </div>
-    <div>
-        <input type="text" id="finish_addr" name="finish_addr">
-    </div>
-    <div>
-        <input type="text" id="finish_lng" name="finish_lng">
-    </div>
-    <div>
-        <input type="text" id="finish_lat" name="finish_lat">
+        <input type="hidden" id="finish_addr" name="finish_addr">
     </div>
     <input type="hidden" name="command" value="preorder"/>
-    <input type="submit" name="button_order" value="Перейти к заказу">
+    <input class="btn_dark_blue" type="submit" name="button_order" value="Перейти к заказу">
+    <div class="bold_red_text">${requestScope.preorder_msg}</div>
 </form>
-<div>${requestScope.preorder_msg}</div>
-<%--    ${pageContext.session.id}--%>
 <script src="${pageContext.request.contextPath}/pages/map/main.js"></script>
 </body>
 </html>

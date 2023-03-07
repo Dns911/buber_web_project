@@ -1,6 +1,6 @@
 package com.epam.buber.entity;
 
-import com.epam.buber.entity.parameter.UserRole;
+import com.epam.buber.entity.types.UserRole;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -9,6 +9,7 @@ public class Client extends User {
     private double paymentSum;
 
     public Client() {
+        super();
     }
 
     public Client(int idUser, String email, String password, String phoneNum, String name, String lastName,
@@ -28,9 +29,8 @@ public class Client extends User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Client)) return false;
+        if (!(o instanceof Client client)) return false;
         if (!super.equals(o)) return false;
-        Client client = (Client) o;
         return Double.compare(client.getPaymentSum(), getPaymentSum()) == 0;
     }
 

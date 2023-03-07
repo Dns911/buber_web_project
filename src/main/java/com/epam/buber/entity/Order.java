@@ -8,7 +8,7 @@ public class Order extends AbstractEntity{
     public static final int DEFAULT_ID = -1;
     private int idOrder;
     private Client client;
-    private DriverShift driverShift;
+    private ShiftDriver shiftDriver;
     private Date date;
     private Time startTime; //SQL Time
     private Time finishTime; //SQL Time
@@ -22,6 +22,7 @@ public class Order extends AbstractEntity{
     private boolean status;
 
     public Order() {
+        super();
     }
 
     public Order(int idOrder) {
@@ -44,12 +45,12 @@ public class Order extends AbstractEntity{
         this.client = client;
     }
 
-    public DriverShift getDriverShift() {
-        return driverShift;
+    public ShiftDriver getDriverShift() {
+        return shiftDriver;
     }
 
-    public void setDriverShift(DriverShift driverShift) {
-        this.driverShift = driverShift;
+    public void setDriverShift(ShiftDriver shiftDriver) {
+        this.shiftDriver = shiftDriver;
     }
 
     public Date getDate() {
@@ -161,7 +162,7 @@ public class Order extends AbstractEntity{
         final StringBuilder sb = new StringBuilder("Order{");
         sb.append(" idOrder=").append(idOrder);
         sb.append("\nclient=").append(client);
-        sb.append("\ndriverShift=").append(driverShift);
+        sb.append("\nshiftDriver=").append(shiftDriver);
         sb.append("\ndate=").append(date);
         sb.append("\nstartTime=").append(startTime);
         sb.append("\nfinishTime=").append(finishTime);

@@ -12,44 +12,41 @@
     <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-
-<div>
-    ${pageContext.session.id}
-</div>
-<div>
-    Статус водителя в системе: ${sessionScope.driver_system_status}
-</div>
-<div>
-    "ожидание подтверждения, бан, активен"
-</div>
-<div>
-    Рабочий статус: ${sessionScope.driver_work_status}
-</div>
-"ожидание заказа, работа с заказом, не на смене"
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <div class="bold_blue_text">
+        Страница водителя ${sessionScope.user_login} !
+    </div>
+    <div>
+        Статус водителя в системе:
+        <div class="bold_blue_text">
+            ${sessionScope.driver_system_status}
+        </div>
+    </div>
+    <div>
+        Рабочий статус:
+        <div class="bold_blue_text">
+            ${sessionScope.driver_work_status}
+        </div>
+    </div>
     <input type="hidden" name="command" value="driver_shift_start">
-    <input type="text" name="car_id" value="" placeholder="Номер авто">
-    <input type="submit" name="иге" value="Выйти на смену">
-    <div>${requestScope.car_id_err}</div>
-    <div> ${requestScope.status_err}</div>
+    <input class="input" type="text" name="car_id" value="" placeholder="Номер авто">
+    <input class="btn_dark_blue" type="submit" name="btn_in" value="Выйти на смену">
+    <div class="bold_red_text">${requestScope.car_id_err}</div>
+    <div class="bold_red_text">${requestScope.status_err}</div>
 </form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="driver_shift_end">
-    <input type="submit" name="иге" value="Завершить смену">
+    <input class="btn_red" type="submit" name="btn_out" value="Завершить смену">
+    <div class="bold_red_text"><span> </span>${requestScope.driver_out}</div>
 </form>
-<div>${requestScope.driver_out}</div>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="goto_main"/>
-    <input type="submit" name="button_main" value="Вернуться на главную"/>
-</form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="order_info"/>
-    <input type="submit" name="button_main" value="Текущий заказ"/>
-    <div>${requestScope.current_order_msg}</div>
+    <input class="btn_dark_blue" type="submit" name="button_main" value="Текущий заказ"/>
+    <div class="bold_red_text"><span> </span>${requestScope.current_order_msg}</div>
 </form>
-<form action="${pageContext.request.contextPath}/controller" method="post">
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
     <input type="hidden" name="command" value="user_info"/>
-    <input type="submit" name="button_inf" value="Информация о пользователе"/>
+    <input class="btn_dark_blue" type="submit" name="button_inf" value="Информация о пользователе"/>
 </form>
 <table class="table">
     <tr>
@@ -99,10 +96,18 @@
         </td>
     </tr>
 </table>
-<form action="${pageContext.request.contextPath}/controller" method="post">
-    <input type="hidden" name="command" value="logout"/>
-    <input type="submit" name="button_logout" value="Выйти из системы"/>
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="change_page"/>
+    <input class="btn_red" type="submit" name="button_main" value="Смена пароля"/>
 </form>
-
+<form class="form_info" action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="logout"/>
+    <input class="btn_red" type="submit" name="button_logout" value="Выйти из системы"/>
+</form>
+<footer style="color: #f8f8f8;font-size: 15px; position: absolute; bottom: 5px" >
+    <h6>
+        Minsk, 2023
+    </h6>
+</footer>
 </body>
 </html>

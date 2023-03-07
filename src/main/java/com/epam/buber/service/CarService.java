@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface CarService {
-    Car getCarFromBD(String carId)throws ServiceException;
-    List<Car> getCarsFromBD()throws ServiceException;
+    Car findCar(String carId)throws ServiceException;
+    List<Car> findAllCars()throws ServiceException;
     boolean insertCar(HashMap<String, String> map) throws ServiceException;
 }

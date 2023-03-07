@@ -8,8 +8,10 @@ public class RequestParameterName {
     public static final String USER = "user";
     public static final String LOGIN_MSG = "login_msg";
     public static final String LOGIN = "login";
+    public static final String LOGIN_ERR = "login_err";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_CHECK = "password_check";
+    public static final String PASSWORD_ERR = "password_err";
     public static final String ID = "id";
     public static final String USER_NAME = "user_name";
     public static final String USER_LASTNAME = "user_lastname";

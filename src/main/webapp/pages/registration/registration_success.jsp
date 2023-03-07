@@ -7,21 +7,27 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
 <head>
-    <title>Registration was success</title>
+    <title>Success registration!</title>
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 </head>
 <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 <body>
-
+<style>
+    body{
+        background-image: url(${pageContext.request.contextPath}/resources/img/wallpaper_login.jpg);
+        background-size: 100%;
+        background-position: 0 100%;
+    }
+</style>
+<header>
+    <h1 class="h1_center">
+        Registration was success!
+    </h1>
+</header>
 <form class="form_center" action="${pageContext.request.contextPath}/controller" method="post">
-    Registration was success!
-    <br/>
-    ${filter_attr}
     <input type="hidden" name="command" value="default">
-    <input class="btn_dark_blue" type="submit" name="but" value="Back to login"/>
-    <br/>
-    ${pageContext.session.id}
+    <input class="btn_dark_blue" type="submit" name="but" value="Вернуться на главную"/>
 </form>
 </body>
 </html>

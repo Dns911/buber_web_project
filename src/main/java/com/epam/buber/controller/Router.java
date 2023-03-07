@@ -25,10 +25,6 @@ public class Router {
         this.page = page;
     }
 
-    public void setRedirect() {
-        this.type = RouterType.REDIRECT;
-    }
-
     public RouterType getType() {
         return type;
     }
