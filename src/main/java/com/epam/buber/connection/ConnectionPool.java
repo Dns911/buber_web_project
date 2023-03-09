@@ -39,7 +39,6 @@ public class ConnectionPool {
         for (int i = 0; i < POOL_SIZE; i++) {
             queue.add(createConnection());
         }
-//            checkPool();
     }
 
     public static ConnectionPool getInstance() {
@@ -93,24 +92,6 @@ public class ConnectionPool {
             Thread.currentThread().interrupt();
         }
     }
-
-//    private void checkPool() {
-//        Timer poolTimer = new Timer();
-//        TimerTask task = new TimerTask() {
-//            @Override
-//            public void run() {
-//                if (queue.size() + usedQueue.size() == POOL_SIZE) {
-//                    logger.log(Level.INFO, "POOL OK! free con: {}, used con: {}", queue.size(), usedQueue.size());
-//                } else {
-//                    logger.log(Level.INFO, "POOL NOT OK! free con: {}, used con: {}", queue.size(), usedQueue.size());
-//                    for (int i = 0; i < POOL_SIZE - queue.size(); i++) {
-//                        queue.add(createConnection());
-//                    }
-//                }
-//            }
-//        };
-//        poolTimer.schedule(task, 0, 10000);
-//    }
 
     public void deregisterDriver() {
         DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {

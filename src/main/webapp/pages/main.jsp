@@ -86,7 +86,7 @@
     </div>
     <input type="hidden" name="command" value="preorder"/>
     <input class="btn_dark_blue" type="submit" name="button_order" value="Перейти к заказу">
-    <div class="bold_red_text">${requestScope.preorder_msg}</div>
+    <div class="bold_red_text" style="width: 300px">${requestScope.preorder_msg}</div>
 </form>
 <script src="${pageContext.request.contextPath}/pages/map/main.js"></script>
 </body>

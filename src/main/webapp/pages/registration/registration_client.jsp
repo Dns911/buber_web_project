@@ -21,7 +21,7 @@
     }
 </style>
 <header>
-    <h1>
+    <h1 class="h1_center">
         Регистрация нового клиента
     </h1>
 </header>
